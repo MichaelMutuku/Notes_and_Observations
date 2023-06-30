@@ -1,0 +1,318 @@
+#####################################################################################################################################################################
+#Networks
+#####################################################################################################################################################################
+RPC, RMI
+
+SFTP
+Secure File Transfer Protocol
+Port 22
+
+Telnet
+Port 23
+
+SSH 
+Port 22
+
+FTP
+Port 20/21
+
+SMTP
+Port 25
+
+DNS
+Port 53
+
+DHCP
+Port 67, 68
+
+TFTP
+Port 69
+
+HTTP 
+Port 80
+
+POP3
+Port 110
+
+NTP
+Port 123
+
+NetBIOS
+Port 139
+
+IMAP
+Port 143 
+#####################################################################################################################################################################
+#Python
+#####################################################################################################################################################################
+python __eq__
+
+python __iter__
+
+python __name__ = main
+
+python numpy
+
+python __str__
+
+yield
+
+python __repr__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################################################################################################################
+#CSS
+#####################################################################################################################################################################
+CSS display
+
+CSS position
+
+CSS padding, margin, border, box model, align, outline, rounded corners
+
+CSS units, height, width, maxwidth, overflow, colors, backgrounds, text, text align, fonts, float
+
+CSS icons, links, buttons, pagination, zindex, pseudo-class
+
+CSS navigation bar, dropdowns, opacity
+
+CSS variables, combinators
+
+CSS media queries, RWD images
+
+CSS Viewport
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################################################################################################################
+#Javascript
+#####################################################################################################################################################################
+Arrays.
+Access array element, Change array element, Access the full array, length, Access first element, Access last element, Looping array elements, Adding array elements.
+
+Array Methods.
+array_name.toString(), array_name.join(" * "), array_name.pop(), array_name.push("element"), array_name.shift(), array_name.unshift("Element"), change elements, 
+delete array_name/ delete array_name[i], array_one.concat(array_two), arr1.concat(arr2, arr3), array_name.splice(2, 0), array_name.splice(2, 2), array_name.slice(1),
+array_name.slice(1, 3).
+
+Array Sort.
+array_name.sort(), array_name.reverse(), compare function, sort in random order, Fisher Yates Method, highest/lowest array value, math.max, math.min, sorting array 
+objects. 
+
+Array iteration
+array_name.forEach(myFunction), array_name.map(myFunction), array_name.filter(myFunction), array_name.reduce(myFunction), array_name.reduceRight(myFunction), 
+array_name.every(myFunction), array_name.some(myFunction), array_name.indexOf("element"), array_name.lastIndexOf("element"), array_name.find(myFunction),
+array_name.findIndex(myFunction), Array.from("ABCDEFG"), array_name.keys(), array_name.entries(), array_name.inludes("element").  
+
+Functions.
+
+Classes.
+Class Syntax, Using a class, Class method, strict mode.
+
+Class Inheritance.
+extends, super(), getter and setter, underscore, hoisting. 
+
+Class Static.
+static.
+
+Objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################################################################################################################
+#HTML
+#####################################################################################################################################################################
+Favicon
+
+Web worker
+
+div 
+
+nav
+
+table
+
+form 
+
+list
+
+web storage
+
+em
+
+strong
+
+footer, header
+
+section
+
+time, audio, video, 
+
+textarea
+
+meta
+
+
+
+
+#####################################################################################################################################################################
+#ORACLE
+#####################################################################################################################################################################
+SELECT, ORDER BY, WHERE, AS,  
+
+UPPER, DISTINCT, EXTRACT, COUNT, ROLLUP, SUM, MAX, AVG, ROUND, DECLARE
+
+WHERE.
+<, >, ==, !=, IN, ANY/SOME/ALL, NOT, BETWEEN, EXISTS, IS NULL, IS NOT, LIKE, AND, OR, 
+
+ALIAS.
+SELECT
+first_name AS forename, first_name AS "Forename", first_name forename, firstname "Forename", first_name || ' ' || lastname AS "Full Name",
+list_price - standard_cost AS gross profit
+e.firstname FROM employees e
+
+OFFSET 10 ROWS
+FETCH NEXT [  row_count | percent PERCENT  ] ROWS  [ ONLY | WITH TIES ]
+
+SELECT FROM JOIN WHERE GROUP BY ORDER BY OFFSET FETCH
+
+BETWEEN DATE '2016-12-01' AND DATE '2016-12-31'
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a INNERJOIN palette_b b ON a.color = b.color;
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a LEFT JOIN palette_b b ON a.color = b.color;
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a LEFT JOIN palette_b b ON a.color = b.color WHERE b.id IS NULL;
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a RIGHT JOIN palette_b b ON a.color = b.color;
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a RIGHT JOIN palette_b b ON a.color = b.color WHERE a.id IS NULL; 
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a FULL JOIN palette_b b ON a.color = b.color;
+
+SELECT a.id id_a, a.color color_a, b.id id_b, b.color color_b FROM palette_a a RIGHT JOIN palette_b b ON a.color = b.color WHERE a.id IS NULL OR b.id IS NULL;
+
+SELECT * FROM orders INNER JOIN order_items USING( order_id )
+
+SELECT column_list FROM T1 RIGHT OUTER JOIN T2 ON T1.c1 = T2.c1 AND T1.c2 = T2.c2 AND T1.c3 = T2.c3;
+
+SELECT column_list FROM T1 RIGHT OUTER JOIN T2 USING(c1,c2,c3);
+
+SELECT colum_list FROM t1 CROSS JOIN t2;
+
+SELF JOIN
+SELECT (e.first_name || ' ' || e.last_name) employee, (m.first_name || ' ' || m.last_name) manager, e.job_title FROM employees e LEFT JOIN employees m ON 
+m.employee_id = e.mananger_id ORDER BY manager;
+
+SELECT FROM GROUP BY;
+SELECT DISTINCT FROM;
+
+EXTRACT(YEAR FROM order_date)
+
+GROUP BY HAVING ORDER BY
+
+SUBQUERY
+SELECT product_id, product_name, list_price FROM products WHERE list_price = ( SELECT MAX( list_price ) FROM products );
+Subquery in SELECT, FROM, WHERE
+
+Correlated Subquery
+subquery that depends on the values returned by the outer query.
+SELECT product_id, product_name, list_price FROM products WHERE list_price = ( SELECT MIN( list_price ) FROM products );
+
+UNION, UNION ALL, INTERSECT, MINUS
+
+CREATE VIEW customer_category_sales AS SELECT
+SELECT FROM customer_category_sales
+SELECT FROM GROUP BY GROUPING SETS( (customer, category), (customer), (category), ())
+SELECT DECODE FROM GROUP BY GROUPING SETS
+GROUPING ID
+
+INSERT INTO discounts(discount_name, amount, start_date, expired_date)
+VALUES('Summer Promotion', 9.5, CURRENT_DATE, DATE '2017-08-31');
+INSERT INTO sales(customer_id, product_id) SELECT customer_id, product_id FROM orders
+CREATE TABLE sales_2017 AS SELECT
+
+INSERT ALL INTO VALUES INTO VALUES
+INSERT ALL WHEN THEN INTO WHEN THEN INTO ELSE
+
+UPDATE SET WHERE
+
+DELETE FROM WHERE
+DELETE FROM WHERE DELETE FROM WHERE COMMIT WORK;
+DELETE CASCADE 
+
+MERGE
+
+CREATE TABLE ot.persons(person_id NUMBER GENERATED BY DEFAUT AS IDENTITY, first_name VARCHAR2(50) NOT NULL, last_name VARCHAR2(50) NOT NULL, PRIMARY KEY(person_id));
+GENERATED ALWAYS AS IDENTITY
+GENERATED BY DEFAULT AS IDENTITY
+GENERATED BY DEFAULT ON NULL AS IDENTITY
+GENERATED BY DEFAULT ON NULL AS IDENTITY START WITH 100
+GENERATED BY DEFAULT ON NULL AS IDENTITY START WITH 10 INCREMENT BY 10
+
+ALTER TABLE ADD
+ALTER TABLE MODIFY
+ALTER TABLE DROP COLUMN
+ALTER TABLE RENAME COLUMN TO
+ALTER TABLE RENAME TO
