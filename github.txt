@@ -1,0 +1,83 @@
+Version Cotrol in Git.
+
+ 2. Git installation.
+:which git
+:yum | dnf install git
+:apt install git
+ubuntu: which git
+ubuntu:sudo apt install -y git-all
+ubuntu: clear
+ubuntu: git config --global user.name "Michael Mutuku"
+ubuntu: git config --global user.email "MichaelMutuku@450.com"
+ubuntu: git config -l
+
+ 3. Git initialization.
+:git init
+:git config --global core.editor vi
+:git config --global help.autocorrect 20
+.gitignore
+ubuntu: mkdir scripts
+ubuntu: cd scripts
+ubuntu: git init
+ubuntu: ls -al
+ubuntu: ls -al .git
+ubuntu: git config --global core.editor vim
+ubuntu: git config --global help.autocorrect 100
+ubuntu: git config -l
+ubuntu: vim .gitignore
+*~
+*.swp
+*.bak
+.gitignore
+
+ 4. Basic Git Commands.
+go to github and create a repo called "bash-scripts"
+ubuntu: git clone https://github.com/Goelzind/bash-scripts.git
+ls
+ubuntu: ls
+ubuntu: ls -al bash-scripts/
+ubuntu: cp /home/rob/bin* /home/rob/bash-scripts/
+ubuntu: ls bash-scripts
+ubuntu: cd bash-scripts
+ubuntu: git add .
+ubuntu: git status
+ubuntu: git commit -m "Initial commit, add existing BASH scripts"
+ubuntu: git status
+ubuntu: git push
+in github modify the readme file and append to it
+"Made a change"
+press commit in github
+ubuntu: less README.md
+ubuntu: git pull
+
+ 5. Advanced Git commands.
+production, development and testing branch.
+:git branch dev
+:git checkout dev
+:git checkout main
+:git merge dev
+:git log
+ubuntu: cd bash-scripts
+ubuntu: git branch
+ubuntu: git status
+ubuntu: git branch dev
+ubuntu: git checkout dev
+ubuntu: git status
+ubuntu: git branch
+ubuntu: cp /home/rob/testscript.sh /home/rob/bash-scripts/
+ubuntu: git status
+ubuntu: git add .
+ubuntu: git status
+ubuntu: git commit -m "add additional script file"
+ubuntu: git checkout main
+ubuntu: git status
+ubuntu: git branch
+ubuntu: ls
+ubuntu: git merge dev
+ubuntu: ls
+ubuntu: git log
+
+
+personal token: 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
+django user: big_dad
+tword: yolo
