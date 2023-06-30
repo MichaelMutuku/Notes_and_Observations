@@ -77,7 +77,3 @@ ubuntu: git merge dev
 ubuntu: ls
 ubuntu: git log
 
-
-personal token: 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
-django user: big_dad
-tword: yolo
