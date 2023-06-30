@@ -1,0 +1,27 @@
+Docker
+1. What is docker.
+more apps on same old servers,
+docker image
+docker container registry
+docker container
+development backbone: build, ship, run
+shared operating system
+continous integration, delivery and development
+easy to deploy in cloud
+
+2. Why it matter for devs.
+independent runtime environment for apps.
+environment isolation.
+os independent apps.
+rapid development and deployment.
+scalabity and flexibility.
+no more security issues.
+ship anytime anywhere.
+dependency management made easier.
+in built version control system.
+
+5. Installing the right docker.
+docker desktop.
+docker cli client, docker buildx, docker compose
+docker content trust, kubernetes, credential helper
+docker engine.
