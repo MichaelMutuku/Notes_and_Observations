@@ -1,0 +1,1544 @@
+priorities 3
+
+1. Linux Boot Process. 
+####################################################################################################################################################################
+ 1. Overview.
+Domain 1, Hardware and System Configuration, module 1-6.
+Domain 2, Systems Operation and Maintenance, module 7-14.
+Domain 3, Security, modules 15-20.
+Domain 4, Linux Troubleshooting and Diagnostics, modules 21-24.
+Domain 5, Automation and Scripting, modules 25-27.
+
+ 2. Linux Boot Process.
+boot and efi files.
+bootstrap phase.
+bootloader phase.
+kernel phase.
+initialization phase.
+
+ 3. Bootstrap Phase.
+BIOS.
+POST.
+booloader code, master boot record.
+UEFI.
+efibootmgr
+ESP
+PXE
+TFTP
+pxelinux.cfg directory
+
+ 4. Boot options.
+ISO.
+HTTP, FTP.
+NFS Boot.
+
+ 5. Bootloader phase part1.
+GRUB.
+stage 1, stage 1.5, stage 2.
+boot/grub
+grub.conf /boot/grub/grub.conf
+menu.lst /boot/grub/menu.lst
+
+ 6. Bootloader phase part2.
+ubuntu: grub-install-v
+centos8: grub2-install-v
+/etc/default/grub
+/etc/grub.d
+grub2-mkconfig
+
+ 7. Grub file overview.
+centos6: cd /boot/grub
+centos6: ls -al
+centos6: sudoedit grub.conf
+
+ 8. Grub2 file overview.
+centos8: sudo bash
+centos8: cd boot/grub2
+centos8: ls -al
+centos8: less grub.cfg
+centos8: less /etc/default/grub
+centos8: ls /etc/grub.d
+ubuntu: cd /boot/grub
+ubuntu: ls -al
+ubuntu: less /etc/default/grub
+ubuntu: which update-grub
+ubuntu: less /usr/sbin/update-grub
+ubuntu: less /etc/default/grub
+ubuntu: ls /etc/grub.d
+
+ 9. Boot and EFI file overview.
+centos8: cd /boot
+centos8: ls
+centos8: file vmlinuz-4.18.0-193.28.1.x86_64
+centos8: ls
+centos8: cd efi
+centos8: cd EFI
+centos8: ls
+centos8: ls -al
+centos8: sudo ls centos
+ubuntu: cd /boot
+ubuntu: ls
+ubuntu: ls -al
+
+ 10. Initrd and intramfs.
+ubuntu: cd /boot
+ubuntu: uname -r
+ubuntu: cp /boot/initrd.img-$(uname -r) /root
+ubuntu: sudo ls /root
+ubuntu: sudo ls -al /root
+ubuntu: date
+ubuntu: sudo mkintitramfs -0 /boot/initrd.img-$(uname -r) $(uname -r)
+ubuntu: ls -l /boot/initrd.img-$(uname -r)
+centos8: cd /boot
+centos8: ls
+centos8: dracut
+centos8: sudo dracut newimage.img
+centos8: ls
+centos8: sudo lsinitrd newimage.img | less
+centos8: dracut --add-drivers <driver> <newimage.img>
+
+ 11. Boot commands.
+centos8: sudo bash
+centos8: cd /boot/grub2/
+centos8: ls
+centos8: less /etc/default/grub
+centos8: less /etc/grub.d
+centos8: cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.older
+centos8: ls /boot/grub2
+centos8: vim /etc/default/grub
+reset time
+centos8: less /etc/default/grub
+centos8: grub2-mkconfig -o /boot/grub2/grub.cfg.newer
+centos8: ls
+centos8: cp grub.cfg.newer grub.cfg
+centos8: reboot
+
+ 12. Kernel panic.
+kdump
+crashkernel
+kexec
+crash
+
+2.Kernel Modules.
+####################################################################################################################################################################
+ 1. Kernel commands.
+:lsmod
+:insmod
+:rmmod
+:rmmod -v
+:modprobe
+:modinfo, :modeinfo -d, modinfo -l
+:depmod
+:depmod -a
+:dmesg
+
+ 2. Kernel Commands and file locations.
+centos8: lsmod
+centos8: lsmod | less
+centos8: sudo modrobe dummy 
+centos8: lsmod | grep dummy
+centos8: sudo modprobe -r dummy
+centos8: lsmod | grep dummy
+centos8: cd /usr/lib/modules
+centos8: ls
+centos8: uname -r
+centos8: cd $(uname -r)
+centos8: ls
+centos8: ls /etc/modprobe
+centos8: ls /etc/modprobe.conf
+centos8: ls /etc/modprobe.d/
+ubuntu: cd /etc/modprobe
+ubuntu: ls /etc/modprobe.conf
+ubuntu: ls /etc/modprobe.d/
+ubuntu: ls
+ubuntu: cd usr/lib/modules
+ubuntu: ls
+ubuntu: cd $(uname -r)
+ubuntu: ls
+
+3. Networks
+####################################################################################################################################################################
+ 1. Hostname Configuration.
+#hostname
+ubuntu: cat /etc/hosts
+centos8: cat /etc/hostname
+
+#change hostname
+#temporarily
+ubuntu: sudo hostname ubuntu
+ubuntu: bash
+centos8: sudo hostname centos
+centos8: exec bash
+
+#permanently
+centos8: sudo hostnamectl set-hostname centos
+
+ 2. Network connection files.
+/etc/sysconfig/network-scripts
+/etc/dhcp/dhclient
+
+centos8: cd /etc/sysconfig/network-scripts
+centos8: ls -al
+centos8: less ifcfg-ens160
+
+centos8: sudoedit /etc/dhcp/dhclient.conf
+
+ubuntu: cd /etc/netplan/
+ubuntu: ls
+ubuntu: less 01-network-manager-all.yaml
+
+ubuntu: cd /etc/NetworkManager/system-connection
+ubuntu: ls
+
+ubuntu: less /etc/dhcp/dhclient*
+
+ 3. Network Connection Configuration.
+#show ip address
+centos8: ip addr show
+
+#change ip address temporarily
+centos8: ip addr add 192.168.1.15 dev enp0s3
+
+#change permanently
+less /etc/systemconfig/network-scripts/ifcfg-enp0s3
+
+centos8: sudo ip link set enp0s3 down
+centos8: sudo ip link set enp0s3 up
+centos8: ping -c 4 www.google.com
+centos8: man ping
+centos8: ip link show
+centos8: ethtool enp0s3
+centos8: ethtool enp0s3 --speed <val>
+centos8: ethtool enp0s3 --duplex <val>
+centos8: ethtool enp0s3 --autoneg off
+ubuntu: man iwconfig
+
+ 4. Name resolution.
+centos8: cd /etc/hosts
+centos8: less /etc/hosts
+centos8: less /etc/nsswitch.conf
+centos8: less /etc/resolv.conf
+centos8: sudoedit /etc/resolv.conf
+nameserver 8.8.8.8
+
+ 5. Name resolution commands.
+centos8: dig www.google.com
+centos8: dig www.google.com google.com mx
+centos8: dig www.google.com google.com ns
+centos8: nslookup dns.google.com
+centos8: nslookup 8.8.8.8
+centos8: host www.google.com
+centos8: host dns.google.com
+
+ 6. Network connectin monitoring.
+centos8: less /etc/networks
+centos8: netstat
+centos8: netstat -a
+centos8: netstat -i
+centos8: netstat -t
+centos8: netstat -u
+centos8: netstat -n
+centos8: netstat -r
+centos8: netstat -tuna
+centos8: ss
+centos8: ss -lt
+centos8: ss -ut
+centos8: ss -a
+centos8: ss -s
+
+ 7. Network configuration management.
+centos8: nmcli connection show
+centos8: nmcli device show
+centos8: nmcli device status
+centos8: nmtui
+
+ 8. Network bridging overview.
+:brctl
+:brctl addbr <bridge name>
+:brctl addif <interface>
+:brctl delif <interface>
+:brctl delbr <bridge name>
+:brctl show
+:brctl showbr
+
+ 9. Network routing overview.
+ubuntu: route
+ubuntu: route -n
+ubuntu: netstat -r
+ubuntu: ip route show
+ubuntu: route -h
+:route add <target> gw <ip address>
+:route delete <target> gw <ip address>
+:ip route
+:ip route add <target> via <gateway> dev <device>
+:ip route del <target>
+/etc/sysconfig/network-scripts/ifcfg-<interface>
+/etc/sysconfig/network-scripts/route-<interface>
+ubuntu: /etc/netplan/config>.yaml
+
+ 10. Network bonding.
+aggregation(mode #4)
+active/passive(mode #1)
+load balancing(mode #5)
+centos: /etc/sysconfig/network-scripts/ifconfig-<bond name>
+ubuntu: /etc/network/interfaces
+ubuntu: neplan YAML
+ubuntu: nmcli and nmtui
+
+ 11. Network tuning.
+sysctl.conf
+:sysctl
+icmp_echo_ignore_broadcasts = 1
+ip_foward = 1
+alias <bond name> bonding
+options <bond name> mode = <mode #>
+
+
+5. Cloud and Virtulization Concepts.
+####################################################################################################################################################################
+ 1. Vm Templates and markup languages
+OVF OVA
+json yaml
+docker
+
+ 2. Initialization tools
+cloud init
+anaconda installer
+
+ 3. Storage Types.
+thick provisioned storage
+thin provisoned storage
+blob storage
+block storage
+
+ 4. Virtual network concepts.
+host-only adapter.
+Network Address Translation.
+dual-homed system.
+bridged networks.
+overlay network.
+
+ 5. Hypervisor types.
+Type 1 hypervisor.
+Type 2 hypervisor.
+embeded hypervisor.
+chroots.
+
+ 6. Virtualization commands.
+libvirt.
+KVM.
+virsh.
+ubuntu: sudo apt-get install libvirt-clients
+centos: yum install libvirt-client
+:virsh list
+:virsh list --all
+:virsh console
+:virsh create
+:virsh reboot
+:virsh shutdown
+vmm
+
+
+6. Localization Options.
+####################################################################################################################################################################
+ 1. Environmental variables
+LANG
+LC_*
+LC_ALL
+locale
+TZ
+character sets; ascii, utf-8, unicode
+
+ 2. Localization Files.
+ubuntu: /etc/timezone
+centos: /etc/localtime
+/usr/share/zoneinfo
+centos8: ls -al /etc/localtime
+centos8: ls -al /usr/share/zoneinfo
+
+ 3. Localization Commands.
+:locale
+:localectl
+:timedatectl
+:date
+:hwclock
+ubuntu: locale
+ubuntu: localectl
+ubuntu: sudo localectl set-locale LANG=en_CA.UTF-8
+centos8: timedatectl
+centos8: sudo timedatectl set-timezone "America/Los_Angeles"
+centos8: date -s "Tue Apr 13 20:50:39 PDT 2021"
+centos8: hwclock, hwclock -s, hwclock -w, 
+
+7. Software Management.
+####################################################################################################################################################################
+ 1. Package Types
+rpm
+deb
+dpkg
+tar, gzip, gz, tgz
+
+ 2. RPM command.
+yum, dnf, zypper
+centos8: cd /root
+centos8: ls
+centos8: rpm -i httpd-2.4.37-21.module_el8.2.0+494+1df74eae.x86_64.rpm
+centos8: rpm -ivh pidgin-2.13.0-5.el8.x86_64.rpm 
+centos8: rpm -q pidgin
+centos8: rpm -ql pidgin
+centos8: rpm -qd pidgin
+centos8: rpm -qa
+centos8: rpm -qa | pidgin
+centos8: rpm -e pidgin
+
+ 3. RPM package managers.
+centos8: yum install httpd
+centos8: yum info httpd
+centos8: yum list installed
+centos8: yum list installed | grep httpd
+centos8: yum remove httpd
+centos8: yum search pidgin
+centos8: yum repolist
+centos8: yum clean all
+centos8: yum check-update
+centos8: yum update
+centos8: dnf install mariadb
+centos8: dnf info mariadb
+centos8: dnf list installed
+centos8: dnf list installed | grep maria
+centos8: dnf search pidgin
+centos8: dnf repolist
+centos8: dnf clean all
+centos8: dnf check-update
+suse: sudo bash
+suse: zypper in apache2
+suse: zypper if apache2
+suse: zypper list-patches
+suse: zypper patch
+suse: zypper update
+suse: zypper rm apache2
+
+ 4. DPKG Tools.
+ubuntu: su
+ubuntu: cd /root
+ubuntu: ls
+ubuntu: dpkg -i ./apache2_2.4.41-ubuntu3.1_amd64.deb
+ubuntu: dpkg -i pidgin_1%3a2.13.0-2.2ubuntu64_amd64.deb
+ubuntu: dpkg -I pidgin_1%3a2.13.0-2.2ubuntu64_amd64.deb
+ubuntu: dpkg -L pidgin
+ubuntu: dpkg -r pidgin
+ubuntu: dpkg -I pidgin
+ubuntu: apt-get update
+ubuntu: apt purge apache2
+ubuntu: apt install apache2
+ubuntu: apt-cache show apache2
+ubuntu: apt-cache pkgnames
+ubuntu: apt remove apache2
+ubuntu: apt search pidgin
+ubuntu: apt upgrade
+ubuntu: apt clean
+ubuntu: aptitude
+
+ 5. Build Tools.
+tar -xzvf <filename>.tgz
+tar -xvf <filename>.tar
+./configure
+make
+make install
+
+ 6. Working with libraries.
+ldd /usr/bin/diff
+/lib, /usr/lib
+/lib64, /usr/lib64
+/etc/ld.so.conf
+/etc/ld.so.conf.d
+ldconfig
+
+ 7. Repositories.
+centos: /etc/yum/repos.d
+ubuntu: /etc/apt/sources.list
+
+ 8. Repository Commands.
+centos: cd /etc/yum/repos.d
+centos: ls
+centos: vim test.repo
+centos: yum repolist
+centos: yum reposync
+
+ 9. Acquisition Commands.
+wget <URL of file or package to download>
+curl -O <URL of file or package to download>
+curl -o <filename> <URL of file or package to download>
+
+8. User and group management
+####################################################################################################################################################################
+ 1. User and group creation.
+:useradd
+/etc/passwd
+/etc/shadow
+/etc/default/useradd
+/etc/login.defs
+/etc/skel
+:groupadd
+/etc/group
+centos8: less /etc/login.defs
+/CREATE_HOME
+centos8: less /etc/login.defs
+centos8: ls -al /etc/skel
+centos8: sudo useradd -G wheel test
+centos8: grep test /etc/passwd
+centos8: ls /home
+ubuntu: useradd test
+ubuntu: sudo useradd test
+ubuntu: cd /home/test
+ubuntu: less /etc/login.defs
+/CREATE_HOME
+ubuntu: sudo useradd -mG sudo test2
+ubuntu: grep test /etc/passwd
+ubuntu: cd /home/test2/
+ubuntu: ls -al
+ubuntu: groupadd -g 1337 best
+ubuntu: sudo groupadd -g 1337 best
+ubuntu: grep best /etc/group
+
+ 2. User and group modification.
+:usermod -aG
+:usermod -L
+:groupmod -n
+:groupmod -g
+centos8: sudo useradd test2
+centos8: id test2
+centos8: sudo usermod -aG wheel test2
+centos8: id test2
+centos8: sudo usermod -aG best test2
+centos8: id test2
+centos8: sudo passwd test2
+centos8: grep test2 /etc/shadow
+centos8: sudo grep test2 /etc/shadow
+centos8: sudo usermod -L test2
+centos8: sudo grep test2 /etc/shadow
+centos8: sudo usermod -U test2
+centos8: sudo grep test2 /etc/shadow
+centos8: grep best /etc/group
+centos8: sudo groupmod -n worst best
+centos8: grep worst /etc/group
+centos8: sudo groupmod -g 666 worst
+centos8: grep worst /etc/group
+
+ 3. User and group deletion
+:userdel
+:userdel -r
+:groupdel
+centos8: id test
+centos8: ls /home
+centos8: sudo userdel test
+centos8: id test
+centos8: ls /home
+centos8: id test2
+centos8: ls /home
+centos8: userdel -r test2
+centos8: cat /etc/group
+centos8: sudo groupdel worst
+centos8: cat /etc/group
+centos8: grep worst /etc/group
+
+ 4. User and group file locations.
+/etc/passwd
+/etc/shadow
+/etc/group
+ubuntu: grep test2 /etc/passwd
+ubuntu: grep test2 /etc/shadow
+ubuntu: sudo passwd test2
+ubuntu: sudo grep test2 /etc/shadow
+ubuntu: grep best /etc/group
+ubuntu: sudo usermod -aG best test2
+ubuntu: grep best /etc/group
+
+ 5. Password management.
+:passwd
+:chage
+centos8: useradd test
+centos8: grep test /etc/passwd
+centos8: grep test /etc/shadow
+centos8: passwd test
+centos8: grep test /etc/shadow
+centos8: passwd -l test
+centos8: grep test /etc/shadow
+centos8: passwd -d test
+centos8: grep test /etc/shadow
+centos8: passwd test
+centos8: chage -W 14 test
+centos8: grep test /etc/shadow
+centos8: chage -m 3 test
+centos8: grep test /etc/shadow
+centos8: chage -M 90 test
+centos8: grep test /etc/shadow
+
+ 6. Query commands.
+ubuntu: id test
+ubuntu: cat /etc/group
+ubuntu: usermod -aG best test
+ubuntu: id test
+ubuntu: whoami
+ubuntu: sudo su -
+ubuntu: whoami
+ubuntu: logout
+ubuntu: id
+ubuntu: who
+ubuntu: who -H
+ubuntu: who -q
+ubuntu: w
+ubuntu: last
+ubuntu: last -2
+ubuntu: last -2 -F
+ubuntu: lastb
+
+ 7. Enabling quotas.
+centos8: lsblk
+centos8: vim /etc/fstab
+centos8: mount -o remount, rw /mnt/ext4
+centos8: mount | grep usrquota
+centos8: man quotacheck
+centos8: quotacheck -avugc
+centos8: ls /mnt/ext4
+
+ 8. User and group quotas.
+:edquota -u test
+:edquota -g <group name>
+:edquota -t
+:quota -u <user name>
+:quota -g <group name>
+:repquota <mountpoint>
+:repquota -a
+
+ 9. Bash profiles.
+centos8: less /etc/profile
+centos8: ls /etc/profile.d
+centos8: cd /home/test
+centos8: ls -al
+centos8: less .bash_profile
+centos8: less .bashrc
+centos8: less .bash_logout
+ubuntu: sudo bash
+ubuntu: cd /home/test
+ubuntu: less .bash_logout
+ubuntu: ls -al
+ubuntu: less .profile
+ubuntu: su - rob
+
+ 10. Global entries.
+/etc/bashrc
+/etc/skel
+
+9. File and directory management.
+####################################################################################################################################################################
+ 1. File creation and text editing.
+:touch
+:touch -a
+:touch -m
+:touch -d
+:ls -lu
+:ls -l
+:ls -lc
+:stat <file>
+centos8: touch test
+centos8: ls -l test
+centos8: ls -lc test
+centos8: ls -lu test
+centos8: stat test
+centos8: nano test
+I am typing in nano and it is awesome!
+centos8: nano test
+I am typing more stuff wheel!
+centos8: vim test
+i, something else, esc, :wq
+centos8: vim test
+o, new line, esc, shift + o, new line 2, esc, u, u, a, 
+something else something else something else for everyone
+shift + a , wheel
+esc, y, y, p, y, y, shift + p, d, d , esc , :wq
+ 
+ 2. File readers.
+centos8: grep <string to search> <file to search>
+centos8: ctrl + k
+centos8: grep test /etc/passwd
+centos8: grep root /etc/passwd
+centos8: cat /etc/hosts
+centos8: cat file1
+centos8: cat file2
+centos8: cat file1 file2
+centos8: cat -n /etc/passwd
+centos8: cat -A file1
+centos8: head <file>
+centos8: tail <file>
+centos8: head -n 15 /etc/passwd
+centos8: tail -n 20 /etc/passwd
+centos8: sudo tail -f /var/log/messages
+centos8: less /etc/passwd
+centos8: less /var/log/messages
+G, g, g, /<what you are searching for>
+? <what you are searching for>, n, n, -N, q
+
+ 3. Redirection part 1.
+centos8: cat file1 >> file2
+centos8: cat file2
+centos8: cat file1 > file2
+centos8: cat missingfile 
+centos8: cat missingfile 2> file3
+centos8: cat file3
+centos8: cat missingfile 2>> file3
+centos8: cat file1 missingfile &> file3
+centos8: cat file3
+centos8: cat namefile
+centos8: sort < namefile
+centos8: sort < namefile > sorted_namefile
+centos8: cat sorted_namefile
+centos8: cat << EOF
+centos8: cat << EOF > namefile_new
+centos8: cat namefile_new
+
+ 4. Redirection part 2.
+centos8: cat /etc/passwd | grep rob
+centos8: sudo bash
+centos8: less /var/log/audit/audit.log
+centos8: ausearch -i
+centos8: ausearch -i | grep -i rob
+centos8: cd /dev
+centos8: ls /dev/null
+centos8: ls
+centos8: ctrl + alt + f3
+centos8: ctrl + alt + f1
+centos8: tty
+centos8: cat /var/log/audit/audit.log | tee audit_capture
+centos8: cat /var/log/audit/audit.log | tee -a audit_capture 
+centos8: cat /etc/hosts | tee -a audit_capture
+centos8: cat audit_capture
+centos8: cd ~
+centos8: find . -size +1M
+centos8: find . -size | xargs ls -l
+
+ 5. Text processing.
+centos8: echo "Why hello there!"
+centos8: echo "Why hello there!" > hello_file
+centos8: cat hello_file
+centos8: cd ~
+centos8: cat step_info
+centos8: ./step_info
+centos8: cat mixed_case
+centos8: tr 'A-Z' 'a-z' < mixed_case
+centos8: cat numbered_file
+centos8: tr -d [:digit:] < numbered_file
+centos8: cat alpha_sort
+centos8: sort alpha_sort
+centos8: cat num_sort
+centos8: sort num_sort
+centos8: sort -n num_sort
+centos8: sort -k 2 num_sort
+centos8: cut -d ":" -f 1 /etc/passwd
+centos8: cat -n alpha_sort
+centos8: wc alpha_sort
+centos8: wc -l alpha_sort
+centos8: grep root /etc/passwd | wc -l
+centos8: grep root /etc/passwd
+centos8: cat file3 file4
+centos8: paste file3 file4
+
+ 6. Advanced text processing part1.
+centos8: grep <option> <search> <file>
+centos8: grep -i rob /etc/passwd
+centos8: grep -i ROB /etc/passwd
+centos8: grep -v rob /etc/passwd
+centos8: sudo less /etc/ssh/sshd_config
+centos8: sudo grep -v "#" /etc/ssh/sshd_config
+centos8: grep -n rob /etc/passwd
+centos8: sudo grep -l rob /etc/*
+centos8: sudo grep -ls rob /etc/*
+centos8: grep ro* /etc/passwd
+centos8: grep ro. /etc/passwd
+centos8: grep ^ro. /etc/passwd
+centos8: grep bash$ /etc/passwd
+centos8: sudo grep \* /etc/shadow
+centos8: grep 'root\|rob' /etc/passwd
+centos8: egrep 'root|rob' /etc/passwd
+centos8: fgrep "*" /etc/shadow
+
+ 7. Advanced text processing part2.
+centos8: cat awk_example
+centos8: awk '{ print $1}' awk_example
+centos8: awk '{print $1, $5, $6}' awk_example
+centos8: less /etc/passwd
+centos8: awk -F: '{print $1}' /etc/passwd
+centos8: awk -F: '{print "User", NR-1, "is: ", $1}' /etc/passwd
+centos8: grep root /etc/passwd
+centos8: sed s/root/ROOT/ /etc/passwd | grep -i root 
+centos8: grep root /etc/passwd
+centos8: sed s/root/ROOT/g /etc/passwd | grep -i root
+centos8: printf "The %s barks %d times\n" "dog" 5
+
+ 8. File and directory operations part1.
+centos8: pwd
+centos8: ls
+centos8: ls -l
+centos8: ls -lh
+centos8: ls -alh
+centos8: mkdir somedir
+centos8: ls -l
+centos8: mkdir -p otherdir/dir1/dir2/dir3
+centos8: ls -alR /home/rob/otherdir
+centos8: mv <file> <location>
+centos8: touch original
+centos8: ls
+centos8: mv original new
+centos8: ls /tmp
+centos8: mv new /temp
+centos8: ls home/rob
+centos8: mv /tmp/new /home/rob/original
+centos8: ls /home/rob
+centos8: cp <file or dir> <place>
+centos8: ls /home/rob
+centos8: cp /home/rob/original /tmp
+centos8: ls /tmp
+centos8: ls /home/rob/
+centos8: ls -al /home/rob/somedir/
+centos8: cp -R /home/rob/somedir
+centos8: ls somedir/
+centos8: ls -l somedir/
+centos8: ls -ald somedir/
+centos8: cp -r /home/rob/somedir/ /tmp
+centos8: ls -ald /tmp/somedir/
+centos8: cp -ar /home/rob/otherdir/ /tmp/
+centos8: ls -ald /tmp/otherdir/
+
+ 9. File and directory operations part2.
+centos8: rm <file or dir>
+centos8: cd /tmp
+centos8: ls
+centos8: rm original
+centos8: rm otherdir/
+centos8: rm -r somedir/
+centos8: ls -al
+centos8: ls
+centos8: cp /home/rob/somedir/ /tmp
+centos8: rm -ir /tmp/somedir
+centos8: ls
+centos8: rmdir otherdir/
+centos8: cd otherdir/
+centos8: rm -ir dir1/
+centos8: ls 
+centos8: cd ..
+centos8: ls
+centos8: rm otherdir/
+centos8: cd ~
+centos8: ls
+centos8: diff file3 file4
+centos8: diff -y file3 file4
+
+ 10. Transfer commands.
+centos8: scp file remote:path
+centos8: pwd
+centos8: ls
+centos8: less /etc/hosts
+centos8: ssh ubuntu
+centos8: pwd
+centos8: ls
+centos8: logout
+centos8: ls
+centos8: scp alpha_sort ubuntu:/home/rob
+centos8: ssh ubuntu
+centos8: pwd
+centos8: ls
+centos8: scp remote:path localfilelocation
+centos8: ls
+centos8: cat ubuntuFile
+centos8: logout
+centos8: ls
+centos8: scp ubuntu:/home/rob/ubuntuFile
+centos8: ls
+centos8: cat ubuntuFile
+centos8: pwd
+centos8: ls
+centos8: scp somedir ubuntu
+centos8: scp somedir ubuntu:/home/dir
+centos8: scp -r somedir ubuntu:/home/rob
+centos8: ssh ubuntu
+centos8: ls
+centos8: rsync -r ./ubuntuDir centos:/home/rob
+centos8: logout
+centos8: ls
+centos8: ls -al ubuntuDir/
+centos8: ssh ubuntu
+centos8: ls -al ubuntuDir/
+centos8: ssh centos rm -rf /home/rob/ubuntuDir
+centos8: rsync -ar ./ubuntuDir centos:/home/rob
+centos8: logout
+centos8: ls -al ubuntuDir/
+centos8: rm -r ubuntuDir/
+centos8: ssh ubuntu
+centos8: rsync -azvh ./ubuntuDir centos:/home/rob
+
+ 11. Location commands.
+centos8: find <dir> <options> <search>
+centos8: find /home/ -name file1
+centos8: sudo find /home/ -type d 
+centos8: find /home -size +1M 
+centos8: find / -size +300M
+centos8: ls -alh 
+centos8: which locate
+centos8: sudo updatedb
+centos8: locate file1
+centos8: which locate
+centos8: whereis locate
+centos8: whereis -b locate
+centos8: whereis -m locate
+
+ 12. Link commands.
+inodes, symbolic, hardlinks
+centos8: pwd
+centos8: ls
+centos8: ln ubuntuFile ubuntuFile2
+centos8: ls -il ubuntufile*
+centos8: ln -s ubuntuFile symlink
+centos8: ls -il ubuntuFile*
+centos8: ls -il symlink
+centos8: rm symlinkls
+centos8: unlink ubuntuFile2
+centos8: ls -il ubuntuFile*
+centos8: ls
+
+10. Service managemant with systemd and sysvinit.
+#############################################################################################################################################################
+ 1. Systemd overview.
+sbin/init
+systemctl
+systemd-analyze
+
+ 2. Systemd commands.
+:systemctl
+ubuntu: systemctl status ssh
+ubuntu: systemctl restart ssh
+ubuntu: sudo systemctl stop ssh
+ubuntu: systemctl status ssh
+ubuntu: sudo systemctl disable ssh
+ubuntu: systemctl status ssh
+ubuntu: sudo systemctl enable ssh
+ubuntu: sudo systemctl start ssh
+ubuntu: systemctl status ssh
+ubuntu: sudo systemctl daemon-reload
+ubuntu: sudo systemctl mask ssh
+ubuntu: sudo systemctl unmask ssh
+ubuntu: systemctl status ssh
+
+ 3. Systemd-analyze blame.
+:systemd-analyze
+:systemd-analyze critical-chain
+:systemd-analyze dump
+:systemd-analyze verify
+:systemd-analyze blame
+
+ 4. Systemd unit files linux.
+:systemctl list-units
+:systemctl list-units --type=service
+automount, service, target
+autofs
+centos8: systemctl cat ssh
+centos8: systemctl cat sshd
+EnvironmentFile
+SSH_USE_STRONG_RNG=0
+/usr/lib/systemd/system
+/run/systemd/system
+/etc/systemd/system
+
+ 5. Systemd Targets.
+poweroff.target
+rescue.target
+multi-user.target
+graphical.target
+reboot.target
+centos8: systemctl get-default
+centos8: systemctl cat graphical.target
+centos8: sudo systemctl isolate multi-user.target
+centos8: systemctl get-default
+centos8: sudo systemctl isolate reboot.target
+centos8: systemctl set-default multi-user.target
+centos8: systemctl set-default graphical.target
+
+ 6. SysVinit service management.
+:service
+/etc/init.d
+centos6: cd /etc/init.d
+centos6: pwd
+centos6: ls -al
+centos6: sudo less sshd
+centos6: sudo /etc/init.d/sshd stop
+centos6: sudo /etc/init.d/sshd status
+centos6: sudo /etc/init.d/sshd start
+centos6: sudo /etc/init.d/sshd restart
+centos6: sudo service sshd stop
+centos6: sudo service sshd status
+centos6: sudo service sshd start
+centos6: sudo service sshd restart
+
+ 7. SysVinit chkconfig.
+:chkconfig
+centos6: cd /etc/init.d
+centos6: less sshd
+centos6: chkconfig --list sshd
+centos6: sudo chkconfig sshd on
+centos6: sudo chkconfig sshd off
+centos6: chkconfig --list sshd
+centos6: sudo chkconfig --levels 35 sshd on
+centos6: chkconfig --list sshd
+centos6: sudo chkconfig --del sshd
+centos6: chkconfig --list sshd
+centos6: sudo chkconfig --add sshd
+centos6: chkconfig --list sshd
+
+ 8. SysVinit runlevels.
+runlevel0 poweroff.target
+runlevel1 rescue.target
+runlevel2 non-graphical multiuser networkind disabled multiuser.target
+runlevel3 non-graphical mulituser networking enabled mulituser.target
+runlevel4 unused
+runlevel5 graphical.target
+runlevel6 reboot.target
+/etc/inittab
+/etc/rc.d
+s to start
+k to kill
+/etc/rc.d/rc.local
+:init
+:telint
+/etc/rc.d/rc
+
+11.Server roles.
+####################################################################################################################################################################
+ 1. NTP server.
+port 123
+server 0.pool.ntp.org
+stratum: 0-15
+centos8: systemctl status chronyd
+centos8: dnf intall chrony
+centos8: systemctl enable --now chronyd
+centos8: vim /etc/chrony.conf
+allow NTP acccess from a local network.
+centos8: systemctl restart chronyd.service
+centos8: systemctl status firewalld.service
+centos8: firewall-cmd --permanent --add-service=ntp
+centos8: firewall-cmd --reload
+ubuntu: apt install ntp
+ubuntu: cat /etc/ntp.conf
+ubuntu: vim /etc/ntp.conf
+4, d, d
+server 0.north-america.pool.ntp.org
+y, y, p
+server 1.north-america.pool.ntp.org
+wq
+ubuntu: systemctl restart ntp
+ubuntu: systemctl status ufw
+ubuntu: ufw allow ntp
+
+ 2. SSH server.
+ubuntu: apt install openssh.server
+ubuntu: systemctl enable ssh
+ubuntu: systemctl start ssh
+ubuntu: systemctl status ssh
+ubuntu: ssh ubuntu20
+ubuntu: logout
+ubuntu: less /etc/ssh/ssh_config
+ubuntu: ls -al /home/rob
+ubuntu: ls -al /home/rob/.ssh/
+ubuntu: less /etc/ssh/sshd_config/
+
+ 3. Web servers overview.
+apache, httpd
+nginX
+port 443
+
+ 4. Apache web server.
+centos8: sudo yum install httpd
+centos8: rpm -ql httpd | less
+centos8: less /etc/httpd/conf/httpd.conf
+centos8: systemctl start httpd
+centos8: systemctl status httpd
+127.0.0.1
+ubuntu: sudo apt install apache2
+ubuntu: dpkg -L apache2 | less
+ubuntu: less /etc/apache2/apache2.conf
+ubuntu: ls /etc/apache2/ports.conf
+ubuntu: systemctl status apache2
+ubuntu: sudo ufw app list
+ubuntu: sudo ufw allow "Apache"
+127.0.0.1
+
+ 5. nginX web server.
+centos8: dnf install nginx
+centos8: rpm -ql nginx | less
+centos8: less /etc/nginx/nginx.conf
+centos8: systemctl start nginx
+centos8: systemctl status nginx
+centos8: systemctl enable --now nginx.service
+centos8: systemctl status nginx
+127.0.0.1
+ubuntu: apt install nginx
+ubuntu: dpkg -L nginx 
+ubuntu: less /etc/nginx/nginx.conf
+ubuntu: ls /etc/nginx/
+ubuntu: ls /etc/nginx/sites-available/default
+ubuntu: systemctl status nginx
+ubuntu: ufw app list 
+ubuntu: ufw allow "nginx HTTP"
+
+ 6. Certificate authority server.
+digital certificate.
+asymmetric encryption.
+symmetric key.
+ca,
+certificate signing request
+ssl/tls 443
+ldap 389 636
+
+ 7. Name server.
+dns
+port 53
+bind, berkley internet name domain
+/etc/rosolv.conf
+centos8: dnf install bind
+centos8: rpm -ql bind | less
+centos8: less /etc/named.conf
+ubuntu: apt install bind9 bind9-docs dnsutils
+ubuntu: dpkg -L bind9 | less
+ubuntu: less /etc/bind/named.conf
+ubuntu: less /etc/bind/named.conf.options
+
+ 8. DHCP server.
+client port 67
+server port 68
+DORA, discovery, offer, request, acknowledgement.
+centos8: dnf install dhcp-sever
+centos8: ip addr list
+centos8: less /etc/dhcp/dhcpd.conf
+centos8: systemctl enable --now dhcpd
+centos8: systemctl stutus firewalld
+centos8: firewall-cmd --add-service=dhcp --permanent && firewall-cmd --reload
+ubuntu: apt install isc-dhcp-server
+ubuntu: ip addr list
+ubuntu: less /etc/dhcp/dchpd.conf
+ubuntu: systemctl enable --now isc-dhcp-server
+ubuntu: systemctl status isc-dhcp-server
+
+ 9. File server overview.
+nfs port 2049 rpcbind port 111
+samba port 137 - 139, port 445
+
+ 10. NFS server installation.
+centos8: systemctl enable --now nfs-server
+centos8: systemctl status nfs-server
+centos8: vim /etc/exports
+/mnt/nfsExp/nfs 192.168.1.0/24(rw,no_root_squash)
+centos8: exportfs -rav
+ubuntu: apt install nfs-kernel-server
+ubuntu: systemctl enable --now nfs-server
+ubuntu: systemctl status nfs-server
+ubuntu: vim /etc/exports
+/mnt/nfsExp/nfs 192.168.1.0/24(rw,no_root_squash)
+ubuntu: exportfx -rav
+
+ 11. Samba server installation.
+centos8: dnf install samba samba-client
+centos8: systemctl enable --now {smb,nmb}
+centos8: systemctl status smb nmb
+centos8: vim /etc/samba/smb.conf
+centos8: testparm
+centos8: systemctl restart {smb,nmb}
+centos8: systemctl status smb nmb
+ubuntu: apt install samba
+ubuntu: systemctl enable --now {smbd,nmbd}
+ubuntu: sytemctl status {smbd,nmbd}
+ubuntu: vim /etc/samba/smb.conf
+ubuntu: cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+ubuntu: bash -c 'grep -v -E "^#|^;" /etc/samba/smb.conf.bak | grep . > /etc/samba/smb.conf'
+ubuntu: vim /etc/samba/smb.conf
+ubuntu: systemctl restart {smbd,nmbd}
+
+ 12. Authentication server.
+NIS
+port 111, 714, 711
+kerberos
+port 88
+ldap
+port 389, 636
+raduis
+AAA
+port 1645, 1646, 1812, 1813, 7082
+
+ 13. Proxy server.
+squid, nginx
+port 8080
+centos8: dnf install squid
+centos8: systemctl enable --now squid
+centos8: systemctl status squid
+centos8: vim /etc/squid/squid.conf
+centos8: systemctl status firewalld
+centos8: firewall-cmd --add-service=squid --permanent && firewall-cmd --reload
+ubuntu: apt install squid
+ubuntu: systemctl status squid
+ubuntu: vim /etc/squid/squid.conf
+ubuntu: cp /etc/squid/squid.conf /etc/squid/squid.conf.bak
+ubuntu: bash -c 'grep -v -E "^#|^;" /etc/squid/squid.conf.bak | grep . > /etc/squid/squid.conf'
+ubuntu: vim /etc/squid/squid.conf
+ubuntu: ufw allow 3128/tcp && ufw enable
+ 
+ 14. Log server.
+rsyslogd
+journald
+port 514
+/var/log
+syslogd
+:journalctl
+centos8: vim /etc/rsyslog.conf
+set number
+centos8: systemctl status firewalld
+centos8: firewall-cmd --add-port=514/udp --permanent && firewall-cmd --add-port=514/tcp --permanent && systemctl restart rsyslog.service
+centos8: journalctl
+centos8: journalctl -f 
+centos8: vim /etc/systemd/journald.conf
+
+ 15. Container server.
+container ochestration. 
+ 
+ 16. VPN server.
+pre-shared key IPsec
+SSL/TLS certificate
+OpenVpn port 1194
+full tunnel.
+split tunnel.
+
+ 17. Monitoring server.
+:top
+nagios, cacti
+wireshark, tcpdump
+SNMP
+centos8: top
+s +5, shift p, shift m
+centos8: free
+centos8: free -h
+centos8: ps
+centos8: ps aux | less
+
+ 18. Database server.
+posgresql port 5432
+mysql/mariadb port 3306
+nosql mongodb port 27017
+centos8: dnf module list postgresql
+centos8: dnf module enable postgresql:12
+centos8: dnf module list postgresql
+centos8: dnf install postgresql-server
+centos8: postgresql-setup --initdb
+centos8: systemctl enable --now postgresql
+centos8: systemctl status postgresql
+ubuntu: apt list postgresql -a
+ubuntu: apt install postgresql postgresql-contrib
+ubuntu: systemctl status postgresql
+ubuntu: ls var/lib/postgresql/12/main/
+ubuntu: ls /var/log/postgresql/postgresql-12-main.log
+
+ 19. Print server.
+cups
+internet printing protocol
+samba
+/etc/cups/cupsd.conf
+port 631
+
+ 20. Mail servers.
+MTA, mail transfer agent
+SMTP, simple mail transfer protocol port 25
+centos8: dnf install postfix
+centos8: systemctl enable --now postfix
+centos8: systemctl status postfix
+centos8: less /etc/postfix/main.cf
+centos8: grep -v '#' /etc/postfix/main.cf | less
+centos8: vim /etc/postfix/main.cf
+set number, 94, G, 283, G
+centos8: systemctl restart postfix
+ubuntu: DEBIAN_PRIORITY=low apt install postfix
+ubuntu: systemctl status postfix
+
+ 21. Load balancers.
+least connetion, least response, round robin, least packets
+
+ 22. Storage device buses.
+intergrated drive electroinics IDE
+small computer system interface SCSI
+SATA
+ULTRA 320 SCSI
+SAS serial attached scsi
+eSATA
+eSATAp
+/dev
+character device files
+block device files
+:lsblk
+:lsblk -p
+ubuntu: ls /dev
+ubuntu: echo "Something" > /dev/stdout
+ubuntu: ls /dev/mapper/
+ubuntu: lsblk
+ubuntu: lsblk -p
+ubuntu: lsblk -p -fs
+ubuntu: lsblk -h
+
+13. Linux Devices.
+####################################################################################################################################################################
+ 1. Network Devices.
+ethernet
+wifi
+bluetooth
+HBA
+RJ-45
+:iwconfig
+:iwlist
+rs232
+:bluetoothctl
+:hcitool
+
+ 2. I/O Devices.
+GPIO
+HBA
+PCI
+IDE, SCSI, SATA
+ISCSI Fibre Channel Controllers.
+Ethernet
+
+ 3. Output Devices.
+Audio Devices.
+Monitor
+Video Card.
+X Windows System
+X11
+
+ 4. Printer Devices.
+CUPS
+Ghostscript, postscript
+/etc/cups
+/etc/cups/cupsd.conf
+IPP
+Port 631
+http://localhost:631
+:lpc
+:lpq
+:lpr
+:lprm
+
+ 5.Device Buses.
+:lsdev
+USB
+PCI
+SATA, SCSI
+I/O
+IRQ
+DMA
+/proc
+:lshw
+/proc/ioports
+/proc/inturrupts
+/proc/dma
+ubuntu: which procinfo
+ubuntu: sudo apt install procinfo
+ubuntu: sudo lsdev
+ubuntu: lshw
+ubuntu: sudo lshw -short
+ubuntu: sudo lshw -businfo
+ubuntu: sudo lshw -class storage
+ubuntu: sudo lshw -class disk
+ubuntu: sudo lshw -class disk -sanitize
+ubuntu: sudo lshw -class disk
+
+ 6. procfs Filesystem.
+/proc
+/proc/inturrupts
+/proc/ioports
+/proc/dma
+IRQs
+PIC
+APIC
+16 inturrupt lines
+255 inturrupt lines
+I\O ports
+/proc/ioports
+DMA, DCC, MCC
+/proc/dma
+ubuntu: cat /proc/inturrupts
+ubuntu: sudo cat /proc/ioports
+ubuntu: cat /proc/dma
+ubuntu: cat /proc/cpuinfo
+ubuntu: cat /proc/meminfo
+
+ 7. sysfs Filesystem.
+/sys
+/proc
+/sys/bus
+/sys/devices
+/sys/block
+/sys/fs
+/sys/kernel
+ubuntu: ls /sys
+ubuntu: ls /sys/bus
+ubuntu: ls -al /sys/bus/scsi/
+ubuntu: ls -al /sys/bus/scsi/devices/
+ubuntu: ls -al /sys/devices
+ubuntu: ls -al /sys/block/sda
+
+ 8. Udev and Udev Rules.
+/dev
+/etc/rc5.d/udev
+systemd-udevd.service
+/usr/lib/udev/rules.d
+/etc/udev/rules.d
+/run/udev/rules.d
+ubuntu: ls /usr/lib/udev/rules.d/
+ubuntu: less /usr/lib/udev/rules.d/99-systemd.rules
+ubuntu: ls /etc/udev/rules.d/
+ubuntu: less /etc/udev/rules.d/60-vboxdrv.rules
+
+ 9.Udevadm command.
+uvents
+udevd
+:udevadm info -q
+name, symlink, path, property, all
+:udevadm monitor
+:udevadm test --<action> <device>
+:udevadm control --reload
+:udevadm trigger
+ubuntu: udevadm info -m /dev/sda
+ubuntu: udevadm info -q property -n /dev/sda
+ubuntu: udevadm monitor
+ubuntu: udevadm test --action="add" /dev/char/89:0
+ubuntu: sudo udevadm control --reload
+
+ 10. USB Device Bus.
+:lsusb
+port, thumb drive, flash drive
+/media
+/sys
+/dev
+:lsusb -t
+:lsusb -v
+ubuntu: lsusb
+ubuntu: lsusb -v
+ubuntu: lsusb -t
+ubuntu: lsusb -tv
+
+ 11. PCI Device Bus.
+PCIe
+PCIe 5.0
+SATA, SCSI
+:lspci
+Bus:Device:Function
+:lspci -v
+:lspci -vv
+ubuntu: lspci
+ubuntu: lspci -t
+ubuntu: lspci -tv
+ubuntu: lspci -v
+ubuntu: lspci -vv
+ubuntu: lspci -k
+
+ 12. Storage Device Buses.
+:lsblk
+IDE
+SCSI
+SATA
+Ultra 320 SCSI
+SAS
+eSATA
+eSATAp
+/dev
+characater device files
+block device files
+:lsblk -p
+ubuntu: ls /dev
+ubuntu: echo "Something" > /dev/stdout
+ubuntu: ls /dev/mapper/
+ubuntu: lsblk
+ubuntu: lsblk -p
+ubuntu: lsblk -p -fs
+
+12. Job scheduling and automation.
+####################################################################################################################################################################
+ 1. Job Sceduling and automation.
+cron
+crontab
+:at
+job control
+kill
+
+ 2. The cron daemon.
+cron
+crond
+cron tables
+etc/crontab
+etc/cron.hourly
+etc/cron.daily
+etc/cron.weekly
+etc/cron.monthly
+var/spool/anacron
+ubuntu: less /etc/crontab
+ubuntu: less  /etc/anacrontab
+ubuntu: il var/spool/anacron/
+ubuntu: ls /etc/cron.daily/
+
+ 3. The crontab utility.
+var/spool/cron/<user name>
+/var/spool/cron/crontabs/<user name>
+/etc/crontab
+crontab -e
+centos8: cat /etc/crontab
+centos8: crontab -e
+centos8: which echo
+centos8: less /tmp/minutetest
+centos8: tail -f /tmpminutetest
+centos8: crontab -r
+centos8: sudo ls -al /var/spool/cron
+centos8: sudo less /var/spool/cron/rob
+
+ 4. The at command.
+atd
+/var/spool/at
+at <-f filename> time
+at -f script.sh now + 1 minute
+/var/spool/at
+:atq
+:atrm
+centos8: at now +3 minutes
+centos8: sudo ls var/spool/at/...
+centos8: less /tmp/attest
+
+ 5. Job control
+somescript.sh & 
+:jobs
+:fg
+:fg <job number>
+CTRL + C, sigint
+CTRL + Z, sigstp
+:bg
+sighup
+:nohup some_script.sh &
+
+ 6. The kill command.
+:top
+:kill <PID>
+:pkill
+:pkill cups
+SIGHUP, SIGINT, SIGSTP
+SIGTERM, SIGKILL(9), SIGKILL 
+:kill -9
+centos8: firefox &
+centos8: nautilus &
+centos8: ps aux | grep firefox
+centos8: ps aux | grep nautilus
+centos8: ps aux | grep nautilus | grep -v grep
+centos8: pkill firefox
+centos8: ps aux | grep firefox
+centos8: ps aux | grep firefox | grep -v grep
+centos8: ps aux | grep nautilus | grep -v grep
+centos8: kill -9 5346

@@ -1,0 +1,912 @@
+#########################################################################################################################################################
+14. Linux Graphical User Interfaces.
+#########################################################################################################################################################
+ 2. Display Servers Linux.
+X11.
+/etc/X11/xorg.conf
+/etc/X11/xorg.conf.d
+:Xorf -configure
+/root/xorg.conf.new
+Wayland.
+client, compositor.
+
+ 3. Linux Desktop Comparison.
+desktop environment.
+display manager.
+window manager.
+file manager.
+kde plasma, cinnamon, unity, gnome, matte.
+
+ 4. Linux Remote Desktop Options.
+SSH.
+VNC. RFB, Tcp Port 5900+N.
+NX.
+XRDP. Remote desktop protocol, TCP 3389.
+spice. KVM, TLS, SASL.
+
+ 5. Console Redirection.
+SSH port forwading. 
+Local port fowarding. 
+:ssh -L <local port>:<destination server>:<remote port><SSH server>
+:ssh -L 1337:someplace.com:80 localhost.
+remote port fowarding.
+:ssh -R <remote port>:localhost:<local port> user@remote-SSH-server.
+2049 NFS.
+port 1337.
+X11 forwading.
+ssh -X.
+Vnc fowarding.
+VNC port 5901.
+ssh -L 5901:localhost:5903 user@remote-server.
+
+ 6. Accesibility.
+vision impairmants.
+physical motion limitations.
+
+#########################################################################################################################################################
+15. Permissions, User Types and Privilege Escalation.
+#########################################################################################################################################################
+ 2. User Types Linux.
+/etc/passwd
+root, service, standard.
+root, id 0 in /etc/passwd.
+service, id below 1000 in /etc/passwd, shell set to /sbin/nologin.
+standard, id above 1000 in /etc/passwd and have a shell.
+
+ 3. Privilege Escalation.
+su, sudo, sudoedit.
+:su -
+sudo. user in privilege group can run command as root.
+:usermod
+wheel group, centos.
+sudo group, ubuntu.
+/etc/sudo
+:visudo
+
+ 4. File and Directory Permissions.
+RWX.
+:ls -l
+UGO. 
+421
+
+ 5. Permission Bits.
+SUID: 4. -rws r-x r-x, /usr/bin/mount.
+:find/ -perm/4000
+SGID: 2, -rwx --s --x /usr/bin/locate.
+:find/ -perm/2000
+Sticky bit. 1. drwxrwxrwt.
+:find/ -perm/1000
+
+ 6. Permission Utilities.
+chmod, chown, chgrp.
+:chmod 644 file.txt
+:chmod: u=rw, go=r file.txt
+:chown user:group file.txt
+:chown user.group file.txt
+:chown user file.txt
+:chown :group file.txt
+:chown user: file.txt
+:chgrp nginx dir1
+centos8: sudo bash
+centos8: ls -l
+centos8: chmod 666 file.txt
+centos8: ls -l
+centos8: chmod a=rw file.txt
+centos8: ls -l
+centos8: chmod 4766 file.txt
+centos8: ls -l
+centos8: chown root file.txt
+centos8: ls -l
+centos8: chown :root file.txt
+centos8: chgrp rob file.txt
+centos8: ls -l
+centos8: chown rob: file.txt
+centos8: ls -l
+centos8: touch filetest
+centos8: ls
+centos8: ll
+centos8: touch filetest2
+centos8: ll
+umask
+
+ 5. Umask and Permissions Linux.
+centos8: umask
+:umask 002
+:mkdir dir1 && touch file1
+:ll
+change umask permanent go to /etc/profile
+/etc/profile
+
+ 6. Access Control Lists.
+:getfacl
+:setfacl
+file with acl have a period
+-rw-r--r--.
+:getfacl file
+:setfacl -m u, g, o:<name>:r,w,x<object>
+centos8: touch aclFile
+centos8: ls -al aclFile
+centos8: getfacl aclFile
+centos8: setfacl -m u:nginx:rw aclFile
+centos8: getfacl
+centos8: setfacl -m o:rw aclFile
+centos8: getfacl aclFile
+centos8: setfacl -b aclFile
+centos8: getfacl aclFile
+
+ 7. Setting Limits with ulimit.
+:ulimit -a
+:ulimit -f
+:ulimit -l
+:ulimit -t
+~/.bashrc or ~/.profile
+/etc/bashrc /etc/profile
+
+ 8. SELinux Config.
+Linux Security Module.
+Mandatory Access Control (MAC).
+Discretionary Access Control (DAC)
+MAC. if an action is not explicitly granted it is denied.
+SELinux modes. disabled, permissive, enforcing.
+:getenforce
+
+ 9. SELinux Policy.
+:setstatus
+targeted. type security 
+minimun
+mls-multi-layersecurity. Bell-LaPadula model.
+centos8: sestatus
+centos8: cd /etc/selinux/
+centos8: ls -l
+centos8: less config
+centos8: cd /etc/selinux/targeted/
+centos8: ls -l
+
+ 10. SE Linux Tools.
+setenforce, setsebool, chcon, restorecon.
+:ls -Z
+:ps -Z
+id -Z
+netstat -Z
+context. user:role:type:level
+/etc/selinux/config
+:chcon
+:chcon -u <new user> -r <new role> -t <new type> file_name
+:chcon -R
+:restorecon
+:restorecon -R
+:sudo semanange boolean -l
+:setsebool
+:getsebool
+:getsebool dhcpd_use_ldap
+
+ 11. AppArmor Overview.
+used for MAC on Debian-based distros.
+profiles.
+enforce mode and complain mode.
+/etc/apparmor.d
+/etc/apparmor.d/tunables
+:aa-status
+:aa-enforce
+:aa-disable
+:aa-complain
+:aa-unconfined
+
+#########################################################################################################################################################
+16. Access and Authentication.
+#########################################################################################################################################################
+ 2. PAM Overview.
+login, ssh, su.
+PAM-aware application.
+PAM configuration files.
+/etc/pam.d
+TYPE CONTROL-FLAG PAM-MODULE MUDULE-OPIONS.
+TYPE. account, auth, password, session.
+CONROL-FLAG. required, requisite, sufficient, optional.
+ubuntu: ls /etc/pam.d
+ubuntu: less /etc/pam.d/sshd
+
+ 3. PAM Utilities and Policies.
+pam_unix.so
+pam_pwhistory.so
+pam_pwquality.so
+LDAP.
+pam_ldap.so
+/etc/ldap.conf
+centos: /etc/pam.d/system-auth
+ubuntu: pam-auth-update
+pam_tally2.so
+/etc/pam.d/sshd
+deny=5, onerr=fail
+/sbin/pam_tally2
+pam_faillock.so
+/etc/pam.d/system-auth
+/etc/pam.d/password-auth
+:faillock
+:pam_tally2
+
+ 4. SSH Overview Linux.
+client and server.
+.ssh/known_hosts
+.ssh/config. port fowarding, X11 fowarding, SSH keepalive values.
+/etc/ssh/ssh_config for client
+/etc/ssh/sshd_config for server
+
+ 5. SSH, Keys and Utilities.
+password-less login.
+:ssh-keygen
+.ssh/id_rsa is the private key
+.ssh/id_rsa.pub is the public key
+:ssh-keygen -b
+:ssh-keygen -t
+:ssh-keygen -C
+ssh-keygen -t rsa -b 4096 "rob@bogusdomain.com"
+ssh-keygen -t ed25519 -C "rob@bogusdomain.com"
+:ssh-copy-id
+:ssh-copy-id user@remote-host
+:ssh-copy-id rob@ubuntu20
+.ssh/authorized_keys
+:ssh-add
+ssh-agent
+:eval `ssh-agent`
+
+ 6. TCP Wrappers.
+libwrap
+which sshd
+ldd <full path>
+ldd <full path> | grep libwrap
+/etc/hosts.allow
+/etc/hosts.deny
+
+ 7. TTY and PTY Terminals.
+/dev/tty
+/dev/pts/*
+ubuntu: ls -al /dev/tty
+ubuntu: ls -al /dev/pts
+/etc/securetty
+pam_securetty.so
+
+ 8. Public Key Infrastructure.
+keys, hashing and certificates.
+private keys, public/private keys, certificate authority.
+message digest, digital signature.
+symmetric key.
+cryptographic token.
+
+ 9. VPN as a client.
+IPSec. Tunnel, Transport.
+AH. Authentication Headers.
+ESP. Encapsualting Security Payload.
+ISAKMP.
+TLS.
+Datagram Transport Layer Security(DTLS).
+UDP.
+
+#########################################################################################################################################################
+17. Linux Security Best Practices.
+#########################################################################################################################################################
+ 2. Boot Security Linux.
+centos8: sudoedit /etc/grub.d/10_linux
+type esc, colon and then write set number
+go to line 29 and delete unrestricted.
+centos8: sudo grub2-setpasswords
+centos8: sudo cat /boot/grub2/user.cfg
+centos8: sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+centos8: reboot
+
+ 3. Multifactor Authentication.
+you know, you have, you are
+one-time pad
+physical OTP, software OTP.
+tokens, CAC/PIV cards.
+
+ 4. Remote Authentication Options.
+RADIUS. provides centralized AAA.
+port 1812, 1813.
+TACACS+.
+port 49.
+
+ 5. LDAP Overview.
+X.500.
+DIB entries.
+Directory Inforamtion Base.
+port 389, 636.
+
+ 6. Kerberos Security.
+kinit, klist.
+single sign-on, SSO.
+kerberos tickets.
+Authentication Server(AS).
+Key Distribution Center(KDC). Ticket granting ticket(TGT)
+Ticket-Granting Servive(TGS).
+klist -v.
+
+ 7. Disabling root Login via SSH.
+ubuntu: sudoedit /etc/ssh/sshd_config
+type foward slash and then type permit.
+change permitRootLogin without-password to no
+centos8: sudo systemctl restart sshd
+centos8: sudo systemctl status sshd
+
+ 8. PKI and Enforcing Password-less Login.
+centos8: whoami
+centos8: ssh pwless@ubuntu
+ubuntu: sudoedit /etc/ssh/sshd_config
+change passwordauthentication to no
+uncoment pubkeyauthentication to yes
+ubuntu: sudo systemctl restart sshd
+centos8: ssh pwless@ubuntu
+centos8: ssh-keygen -t rsa -b 4096 -C "pwless@somedomain.com"
+centos8: ssh-copy-id pwless@ubuntu
+centos8: cat /home/pwless/.ssh/id_rsa.pub
+copy the contents of the command.
+ubuntu: cd /home/pwless
+ubuntu: cd .ssh
+create a file called authorized_keysand paste the contents copied from centos.
+centos8: ssh pwless@ubuntu
+centos8: eval `ssh-agent`
+centos8: ssh-add
+centos8: ssh pwless@ubuntu
+
+ 9. chroot jail Services.
+:chroot <new_root_dir> <service>
+
+ 10. Enforcing no shared IDs.
+/etc/passwd
+/etc/group
+
+ 11. Denying Hosts.
+TCP Wrappers.
+/etc/host.deny.
+Fail2Ban.
+SSH via /var/log/auth.log
+FTP via /var/log/vsftpd.log
+Web Services via var/log/apache2/access.log
+ipset.
+iptables.
+firewalld.
+
+ 12. OS and Application Partitioning.
+Appliction data. /usr /opt
+User. /home
+Log and Spool. /var
+boot. /boot
+root folder. /
+
+ 13. Changing Default Ports.
+centos8: sudoedit /etc/ssh/sshd_config
+go to the line port 22 and then modify it to 49152
+centos8: systemctl restart sshd
+centos8: ssh ubuntu
+centos8: ssh ubuntu -p 49152
+
+ 14. Disabling or Removing Non-Secure Services.
+FTP.
+:netstat -tuna | grep ":21"
+:pgrep ftpd
+:systemctl list-units --type=service | grep ftpd
+Telnet.
+:netstat -tuna | grep ":23"
+:pgrep telnet
+:systemctl list-units --type=service | grep telnet
+finger.
+port 79.
+who or pinky replaced finger.
+mail services.
+
+ 15. Enabling SSL/TLS.
+HTTPS.
+LDAP.
+port 636.
+VPN.
+FTPS.
+
+ 16. Enabling auditd.
+monitor. file and directory access, systemcalls, network access, network connection attemps.
+rules. system rules, file system rules, control rules.
+/etc/audit/audit.rules
+auditctl.
+
+ 17. CVE Monitoring.
+Common Vunerabilities and Exposures.
+nvd.nist.gov
+
+ 18. Restricting USB Devices.
+modprobe
+/etc/modprobe
+blacklist.conf
+
+ 19. Disk Encryption.
+LUKS.
+dm-crypt, cryptmount, cryptsetup
+block device encryption.
+/dev/mapper.
+virtual drive.
+:cryptmount-setup
+
+ 20. Restricting Cron Access.
+/etc/cron.allow, /etc/at.allow
+/etc/cron.deny, /etc/at.deny
+
+ 21. Disabling ctrl,alt,del.
+SysVinit
+/etc/init/control-alt-delete.conf
+exec /sbin/shutdown -r now
+systemd
+centos6: sudoedit /etc/init/control-alt-delete.conf
+change the line /sbin/shutdown -r now "Control-Alt-Delete pressed" to /exec/bin/logger -p authpriv.notice init "Control-Alt-Delete was pressed and ignored"
+centos8: systemctl list-units --type=target
+centos8: sudo systemctl mask ctrl-alt-delete.target
+
+ 22. Adding Banner Messages.
+/etc/login.warn, /etc/issue
+/etc/motd
+centos8: sudoedit /etc/issue
+add contents to the file
+centos8: reboot
+
+#########################################################################################################################################################
+18. Implementing Logging.
+#########################################################################################################################################################
+ 2. Key Log File Locations.
+/var/log
+/var/log/secure
+/var/log/messages
+/var/log/kern.log
+/var/log/[application]. /var/log/httpd
+centos8: cd /var/log
+centos8: ls -al
+centos8: cat /var/log/messages
+centos8: sudo grep --color -i "warning" /var/log/messages
+centos8: sudo less /var/log/secure
+centos8: tail -f /var/log/secure
+
+ 3. Log Management.
+syslog, rsyslog, journald
+syslog. timestamp, type, severity, details
+syslog. 23 facilities. kern, user, mail, daemon, auth, cron, authpriv
+syslog 8 severity types. emerg, alert, crit, err, warning, notice, info, debug
+syslog evolution. sysklogd, syslogd-ng, rsyslog, journald.
+centos8: sudoedit /etc/rsyslog.conf 
+include 
+rules
+
+ 4. Log Rotation.
+/etc/logrotate.conf
+/etc/logrotate.d/
+logrotate. weekly, rotate 4, create, dateext, compress, missingok
+centos8: cat /etc/logrotate.conf
+centos8: ls /etc/logrotate.d
+centos8: less /etc/logrotate.d/samba
+
+ 5. Logging with journald.
+/etc/systemd/journald.conf
+/run/log/journal
+/var/log/journal
+:journalctl -b
+:journalctl -k
+:journalctl -u
+:journalctl -g
+
+ 6. Third party agents.
+splunk
+elasticstack
+alienvault
+datadog
+
+#########################################################################################################################################################
+ 19. Implementing and configuring firewalls.
+#########################################################################################################################################################
+ 2. Access Control Lists.
+components. source, destination, ports, protocol.
+actions. accept, reject, drop, log.
+
+ 3. Firewall Operation Types.
+stateless firewall.
+stateful firewall.
+configurable logging.
+
+ 4. Netfilter Overview.
+stateless packet filtering.
+stateful packet filtering.
+network address and port translation.
+IP fowarding.
+used by firewalld and ufw.
+
+ 5. Working with IP tables.
+chains. prerouting, input, foward, postrouting, output.
+tables. filter, nat, mangle, raw, security.
+policies. accept, reject, drop, queue.
+:iptable -t <table> <command> <chain> <options>
+:iptables -L
+:iptables -t -filter -L
+:iptables -A INPUT -s 0/0 -p http -j ACCEPT
+:iptables -save
+:iptables -restore
+
+ 6. Working with firewalld.
+zones. /usr/lib/firewalld/zones, /etc/firewalld/zones
+predifined firewalld zones. drop, block, public, external.
+additional predifined zones. dmz, work, home, internal, trusted.
+:firewall-cmd
+:firewall-cmd --runtime-to-permanent
+:firewall-cmd --permanent
+centos8: sudo systemctl enable --now firewalld
+centos8: sudo firewall-cmd --get-zones
+centos8: sudo firewall-cmd --get-default-zone
+centos8: sudo firewall-cmd --list-all
+centos8: sudo firewall-cmd --set-default=internal
+centos8: sudo firewall-cmd --get-default-zone
+centos8: sudo firewall-cmd --list-all
+centos8: sudo firewall-cmd --add-service=dns
+centos8: sudo firewall-cmd --runtime-to-permanent
+centos8: sudo firewall-cmd --reload
+
+ 7. ufw configuration.
+/etc/default/ufw
+:ufw disable
+:ufw reset
+:ufw reload
+:ufw status
+:ufw allow <identifier>
+:ufw deny <identifier>
+:ufw reject <identifier>
+ubuntu: sudo ufw enable
+ubuntu: sudo ufw status
+ubuntu: sudo ufw allow ssh
+ubuntu: sudo ufw status
+ubuntu: sudo ufw status verbose
+ubuntu: sudo ufw show added
+ubuntu: sudo ufw status numbered
+ubuntu: sudo ufw delet 6
+ubuntu: sudo ufw status
+ubuntu: sudo ufw delete 3
+
+ 8. IP Fowarding.
+Destination NAT.
+Source NAT.
+Masquerade.
+echo 1 > proc/sys/new/ipv4/ip_foward
+sysctl -w net.ipv4.ip_foward=1
+echo 1 > proc/sys/new/ipv6/ip_foward
+sysctl -w net.ipv6.conf.all.fowarding=1
+
+ 9. Dynamic Rule Set- DenyHosts.
+/etc/denyhost.conf
+/etc/hosts.allow
+/etc/hosts.deny
+/var/log/secure
+/var/log/auth.log
+
+ 10. Dynamic Rule Set- Fail2Ban.
+failed login attempt. /var/log/auth.log, /var/log/secure, /var/log/pwdfial
+app log files. /var/log/apache2/access.log, var/log/httpd/access_log, /var/log/vsftpd.log
+when bad login attempts: update /iptables/firewalld, add hosts to /etc/hosts.deny
+/etc/fail2ban/jail.conf. bantime, maxretry, findtime, enabled, ignoreip.
+ubuntu: sudo apt install fail2ban
+ubuntu: vim /etc/fail2ban/fail2ban.conf
+ubuntu: vim /etc/fail2ban/jail.conf
+/http
+/bantime
+
+ 11. Dynamic Rule Set.
+ipset.
+:ipset create <IPset name> <storage type>:<set type>
+:ipset -N <IPset name> <storage type>:<set type>
+:ipset -N BadIPs hash:net
+:ipset add <IPset name> <address or range>
+:ipset -A <IPset name> <address or range>
+:ipset -A BadIPs 10.10.101.0/24
+:ipset del <IPset name> <address or range>
+:ipset -D <IPset name> <address or range>
+:ipset destory <IPset name>
+
+ 12. Common Application Port Configurations.
+/etc/services.
+SMTP 25.
+
+#########################################################################################################################################################
+20. Linux Backup, Restore and Compression.
+#########################################################################################################################################################
+ 2. Archive and restore tools.
+tar, cpio, dd.
+:tar -c
+:tar -x
+:tar -v
+:tar -f
+:tar -z
+:tar -cvf <destination file> <directory or archive>
+:tar -czvf <destination file> <dir to archive and compress>
+:tar -xvf <file name to extract>.tar
+:tar -xzvf <file name to extract>.tgz
+:cpio -o
+:cpio -i
+:cpio -v
+:ls /dir1/*.txt | cpio -ov > dir1txtFiles.cpio
+:cpio -iv < dir1txtFiles.cpio
+:dd
+if, of, count, bs
+dd if=/dev/zero of=/dev/sdb1
+centos8: ls /home/rob/file*
+centos8: tar -czvf files.tgz /home/rob/file*
+centos8: tar -xzvf files.tgz
+centos8: ls
+centos8: ls -R home/
+centos8: ls /home/rob/flle* | cpio -ov > files.cpio
+centos8: cpio -iv < files.cpio
+centos8: echo "this is some data here!" > tmp/somefile.txt
+centos8: cat /tmp/somefile.txt
+centos8: dd if=/dev/zero of=/tmp/somefile.txt count=1
+centos8: cat /tmp/file.txt
+
+ 3. Compression Utilities.
+gzip, bzip2, xz, zip.
+:gzip file1
+:gunzip file1.gz
+:tar -z
+:bzip2 file1
+:bunzip2 file1.bz2
+:tar -j
+:xz file1
+:unxz file.xz
+:tar -J
+centos8: tar -cvf files.tar /home/jackie/file.*
+centos8: ls -alh files.tar
+centos8: cp files.tar files2.tar files3.tar
+centos8: gzip files.tar
+centos8: bzip2 files2.tar
+centos8: xz files3.tar
+centos8: ls -alh files
+centos8: gunzip files.tar.gz
+centos8: bunzip2 files2.tar.bz2
+centos8: unxz files3.tar.xz
+centos8: ls -alh files*
+centos8: tar -czvf files.tgz /home/jackie/file*
+centos8: tar -cjvf files2.bz2 /home/jackie/file*
+centos8: tar -cJvf files3.xz /home/jackie/file*
+
+ 4. Backup Types.
+system image, full backup, incremental backup, differetial backup, snapshot backup
+full backup sunday
+differencial backup monday-saturday
+full backup sunday
+incremental backup monday-saturday
+
+ 5. Transfer Utilities.
+sftp, scp, rsync
+:scp <local file> user@remotehost:<target location>
+:scp user@remotehost:<remote source><local target>
+:rsync -a
+:rsync -z
+:rsync --dry-run -n
+centos8: sftp ubuntu
+sftp: pwd
+sftp: lpwd
+sftp: ls
+sftp: get ubuntuFile
+ctrl + d
+centos8: cp ubuntuFile newFile
+centos8: echo "I am a new file!" > newFile
+centos8: sftp ubuntu
+sftp: lls
+sftp: lpwd
+sftp: pwd
+sftp: cd Desktop
+sftp: pwd
+sftp: put newFile
+centos8: scp rob@ubuntu:/home/jackie/ubuntuFile ~/
+centos8: ls -al ~/
+centos8: mkdir /home/jackie/dir1
+centos8: scp -r /home/jackie/dir1 ubuntu:/home/rob
+centos8: ssh ubuntu
+ubuntussh: pwd
+ubuntussh: ls
+ubuntussh: logout
+centos8: rsync -avz /home/jackie/dir1 rob@ubuntu:/home/rob
+centos8: ssh ubuntu
+ubuntussh: ls -alh
+ubuntussh: mkdir dir2
+ubuntussh: logout
+centos8: rsync -avz rob@ubuntu:/home/rob/dir2 ./
+
+ 6. Integrity checks with hashing.
+MD5, SHA.
+:md5sum <file name>
+:sha512sum file1.txt
+
+#########################################################################################################################################################
+21. Troubleshooting System Problems.
+#########################################################################################################################################################
+ 2. Network Concepts and Terms.
+localhost.
+unix socket. Ipc Sockets.
+port.
+port + ip = network socket.
+ip, netmask, gateway.
+bandwidth, throughput, name resolution, routing
+:route
+:netstat
+saturation, latency, packet drops, timeouts.
+
+ 3. Network Configuration Troubleshooting.
+/etc/sysconfig/network-scripts
+BOOTPROTO, IPADDR, NETMASK, GATEWAY.
+/etc/netplan
+interface name, dhcpv4, addresses, gateway.
+:nmcli
+:nmcli connection show
+:nmcli device show
+:nmcli device status
+:ip addr show
+:ip addr add <IP> dev <device name>
+:ip link set <interface> up
+:ip link set <interface> down
+:arp
+:ip neigh
+
+ 4. Network Troubleshooting using netstat and ss.
+ubuntu: netstat -a
+ubuntu: netstat -au
+ubuntu: netstat -at
+ubuntu: netstat -lu
+ubuntu: netstat -lt
+ubuntu: netstat -s | less
+type foward slash message i.e /message
+type foward slash failed i.e. /failed
+type foward slash errors i.e. /errors
+ubuntu: netstat -i
+ubuntu: netstat -r
+ubuntu: netstat -rn
+ubuntu: ss -a
+ubuntu: ss -au
+ubuntu: ss -at
+ubuntu: ss -lu
+ubuntu: ss -lt
+ubuntu: ss -s
+
+ 5. Latency Troubleshooting Linux.
+RDMA.
+infiniband
+soft-RoCE
+:mtr
+:traceroute
+:tracepath
+:ping
+:netcat
+:nc
+centos8: traceroute www.google.com
+centos8: mtr www.google.com
+centos8: mtr -o "LDAW" www.google.com
+centos8: tracepath www.google.com
+ctrl + c
+centos8: ping www.google.com
+
+ 6. Network Performance Commands.
+:iperf
+:iftop
+:iftop -i <adapter name>
+centos8: ip link show
+centos8: which iftop
+centos8: which iperf3
+centos8: sudo dnf install -y iftop iperf3
+centos8: sudo iftop -i enp0s3
+go to ubuntu
+ubuntu: which iperf3
+ubuntu: sudo ufw allow 5201
+centos8: sudo firewall-cmd --add-port=5201/udp && sudo firewall-cmd --add-port=5201/tcp
+ubuntu: iperf3 -s -p 5201
+centos8: iperf3 -c ubuntu -b 90kb -P 5 5201 -i 10
+
+ 7. Name Resolution Commands.
+/etc/hosts
+/etc/resolv.conf
+dig, nslookup, host
+centos8: dig google.com a
+centos8: dig google.com mx
+centos8: dig google.com ns
+ubuntu: nslookup dns.google.com
+ubuntu: nslookup 8.8.8.8
+ubuntu: host google.com
+
+ 8. Network Security Commands.
+:ipset
+:whois
+centos8: sudo ipset create BadIPs hash:net
+centos8: sudo ipset list
+centos8: sudo ipset add BadIPs 10.10.10.1/24
+centos8: sudo ipset list
+centos8: sudo ipset del BadIps 10.10.10.1/24
+centos8: whois badips.com | head
+
+ 9. Network Mapping and Protocol Analyzers.
+:tcpdump
+:nmap
+centos8: sudo tcpdump
+centos8: sudo tcpdump -c 10
+centos8: sudo tcpdump -i enp0s3 tcp
+open firefox
+centos8: sudo tcpdump -i enp0s3 port 80
+centos8: sudo tcpdump -i enp0s3 >> /home/rob/Desktop/capture.txt 2>&1
+centos8: grep tcp /home/rob/Desktop/capture.txt
+centos8: ping ubuntu
+centos8: nmap 192.168.1.245
+centos8: nmap -sV 192.168.1.245
+
+ 10. Disk Space Monitoring.
+:df
+:du
+centos8: df
+centos8: df -h
+centos8: df -ht xfs
+centos8: du -sh /
+centos8: du -hx --max-depth=1 /
+
+ 11. Disk Latency Troubleshooting.
+:ioping
+:iostat
+centos8: ioping .
+centos8: ioping . -c 100
+centos8: iostat
+centos8: iostat -d
+centos8: iostat -dh
+
+ 12. I-O Scheduling Linux.
+i/o shedulers. deadline, cfq, noop
+centos8: ls /sys/block/
+centos8: cat /sys/block/sda/queue/scheduler
+
+ 13. Storage Repair.
+fsck, smartctl, partprobe.
+fsck. e2fsck, dosfsck, reiserfsck.
+xfs_repair.
+centos8: ll /dev
+centos8: ll /dev | grep sd
+centos8: sudo partprobe
+centos8: ll /dev | grep sd
+centos8: sudo badblocks -v /dev/sdb1 > badsectors.txt
+centos8: sudo smartctl -a /dev/sdb
+centos8: sudo fsck /dev/sdb1
+
+ 14. CPU Monitoring.
+:uptime
+/proc/cpuinfo
+centos8: cat /proc/cpuinfo
+centos8: less /proc/cpuinfo
+centos8: uptime
+
+ 15. CPU Troubleshooting.
+:iostat -c 2 5
+/var/log/sa/
+:sar
+:sar -h
+sysctl to tune kernel parameters
+
+ 16. Memory Monitoring.
+buffer cache, OOM Killer.
+/proc/meminfo
+
+ 17. Memory Swapping.
+mkswap, swapon, swapoff
+swap space
+:swapon -s
+:mkswap /dev/<partition>
+:swapon /dev/<partition>
+:swapoff /dev/<partition>
+
+ 18. Memory Troubleshooting.
+:vmstat
+:free
+centos8: free
+centos8: free -h
+centos8: vmstat
+centos8: vmstat -s
+centos8: vmstat -s -S M
+
+ 19. Recover lost root password.
+1. Reboot and select the GRUB menu line to edit, then type E to edit.
+2. Find the line that contains linux or linux16.
+3. Replace ro with rw init=/bin/sh to mount root.
+4. Select ctrl+x to start with the changes; this should drop you to a 
+root prompt, know as single-user mode.
+5. Verify root partition mounted as read/write: mount | grep -w/
+6. Reset root password with passwd and reboot with: exec /sbin/init.
