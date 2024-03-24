@@ -87,7 +87,7 @@ ubuntu: cp /boot/initrd.img-$(uname -r) /root
 ubuntu: sudo ls /root
 ubuntu: sudo ls -al /root
 ubuntu: date
-ubuntu: sudo mkintitramfs -0 /boot/initrd.img-$(uname -r) $(uname -r)
+ubuntu: sudo mkintitramfs -o /boot/initrd.img-$(uname -r) $(uname -r)
 ubuntu: ls -l /boot/initrd.img-$(uname -r)
 centos8: cd /boot
 centos8: ls
@@ -230,7 +230,7 @@ centos8: nslookup 8.8.8.8
 centos8: host www.google.com
 centos8: host dns.google.com
 
- 6. Network connectin monitoring.
+ 6. Network connection monitoring.
 centos8: less /etc/networks
 centos8: netstat
 centos8: netstat -a
@@ -510,6 +510,7 @@ centos8: sudo useradd test2
 centos8: id test2
 centos8: sudo usermod -aG wheel test2
 centos8: id test2
+centos8: sudo groupadd best
 centos8: sudo usermod -aG best test2
 centos8: id test2
 centos8: sudo passwd test2
@@ -734,7 +735,7 @@ centos8: cat num_sort
 centos8: sort num_sort
 centos8: sort -n num_sort
 centos8: sort -k 2 num_sort
-centos8: cut -d ":" -f 1 /etc/passwd
+centos8: cat -d ":" -f 1 /etc/passwd
 centos8: cat -n alpha_sort
 centos8: wc alpha_sort
 centos8: wc -l alpha_sort
@@ -905,7 +906,7 @@ centos8: unlink ubuntuFile2
 centos8: ls -il ubuntuFile*
 centos8: ls
 
-10. Service managemant with systemd and sysvinit.
+10. Service management with systemd and sysvinit.
 #############################################################################################################################################################
  1. Systemd overview.
 sbin/init

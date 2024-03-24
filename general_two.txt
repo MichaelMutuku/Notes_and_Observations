@@ -205,7 +205,7 @@ strong
 
 footer, header
 
-section
+section, article
 
 time, audio, video, 
 
